@@ -1,0 +1,41 @@
+[package]
+name = "shell2batch"
+version = "0.1.0"
+authors = ["Sagie Gur-Ari <sagiegurari@gmail.com>"]
+description = "Coverts simple basic shell scripts to windows batch scripts."
+license = "Apache-2.0"
+documentation = "https://sagiegurari.github.io/shell2batch/api/shell2batch/index.html"
+homepage = "http://github.com/sagiegurari/shell2batch"
+repository = "https://github.com/sagiegurari/shell2batch.git"
+readme = "README.md"
+keywords = ["scripting", "shell", "batch", "conversion"]
+categories = ["command-line-utilities", "text-processing"]
+include = [
+    "/benches/*",
+    "/docs/*",
+    "/examples/*",
+    "/src/*",
+    "/tests/*",
+    "/Cargo.toml",
+    "/LICENSE",
+    "/README.md",
+    "/Makefile.toml"
+]
+
+[features]
+default = []
+
+[badges.travis-ci]
+branch = "master"
+repository = "sagiegurari/shell2batch"
+
+[badges.appveyor]
+repository = "sagiegurari/shell2batch"
+service = "github"
+branch = "master"
+project_name = "sagiegurari/shell2batch"
+
+[badges.codecov]
+branch = "master"
+repository = "sagiegurari/shell2batch"
+service = "github"
