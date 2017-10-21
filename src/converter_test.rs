@@ -116,3 +116,10 @@ fn convert_line_pwd() {
 
     assert_eq!(output, "chdir".to_string());
 }
+
+#[test]
+fn convert_line_export() {
+    let output = convert_line("export A=B");
+
+    assert_eq!(output, "set A=B".to_string());
+}

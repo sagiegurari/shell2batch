@@ -104,6 +104,7 @@
 <span id="59">59</span>
 <span id="60">60</span>
 <span id="61">61</span>
+<span id="62">62</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! # converter</span>
 <span class="doccomment">//!</span>
@@ -136,6 +137,7 @@
             <span class="string">&quot;clear&quot;</span> <span class="op">=&gt;</span> <span class="string">&quot;cls&quot;</span>.<span class="ident">to_string</span>(),
             <span class="string">&quot;grep&quot;</span> <span class="op">=&gt;</span> <span class="string">&quot;find&quot;</span>.<span class="ident">to_string</span>(),
             <span class="string">&quot;pwd&quot;</span> <span class="op">=&gt;</span> <span class="string">&quot;chdir&quot;</span>.<span class="ident">to_string</span>(),
+            <span class="string">&quot;export&quot;</span> <span class="op">=&gt;</span> <span class="string">&quot;set&quot;</span>.<span class="ident">to_string</span>(),
             _ <span class="op">=&gt;</span> <span class="ident">shell_command</span>.<span class="ident">to_string</span>(),
         };
 

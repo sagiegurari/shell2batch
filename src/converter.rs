@@ -29,6 +29,7 @@ fn convert_line(line: &str) -> String {
             "clear" => "cls".to_string(),
             "grep" => "find".to_string(),
             "pwd" => "chdir".to_string(),
+            "export" => "set".to_string(),
             _ => shell_command.to_string(),
         };
 
