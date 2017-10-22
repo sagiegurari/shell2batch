@@ -27,9 +27,33 @@ Simply include the library and invoke the convert function as follows:
 extern crate shell2batch;
 
 fn main() {
-    let script = shell2batch::convert("rm ./myfile.txt");
+    let script = shell2batch::convert(
+        r#"
+        #this is some test code
+        cp file1 file2
 
-    assert_eq!(script, "del ./myfile.txt");
+        #another
+        mv file2 file3
+
+        #flags are supported
+        rm -Rf ./directory
+        "#
+    );
+
+    assert_eq!(
+        script,
+        r#"
+@REM this is some test code
+xcopy file1 file2
+
+@REM another
+move file2 file3
+
+@REM flags are supported
+del /Q ./directory
+"#
+    );
+
     println!("Script: {}", script);
 }
 ```
@@ -54,7 +78,7 @@ See [contributing guide](.github/CONTRIBUTING.md)
 
 | Date        | Version | Description |
 | ----------- | ------- | ----------- |
-| 2017-10-21  | v0.1.1  | Additional commands added. |
+| 2017-10-22  | v0.1.2  | Added command flags replacements. |
 | 2017-10-21  | v0.1.0  | Initial release. |
 
 <a name="license"></a>

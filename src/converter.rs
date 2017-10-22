@@ -7,6 +7,31 @@
 #[path = "./converter_test.rs"]
 mod converter_test;
 
+use regex::Regex;
+
+fn replace_flags(
+    arguments: &str,
+    flags_mappings: Vec<(&str, &str)>,
+) -> String {
+    let mut windows_arguments = arguments.clone().to_string();
+
+    if flags_mappings.len() > 0 {
+        for flags in flags_mappings {
+            let (shell_flag, windows_flag) = flags;
+
+            windows_arguments = match Regex::new(shell_flag) {
+                Ok(shell_regex) => {
+                    let str_value = &shell_regex.replace_all(&windows_arguments, windows_flag);
+                    str_value.to_string()
+                }
+                Err(_) => windows_arguments,
+            };
+        }
+    }
+
+    windows_arguments
+}
+
 fn convert_line(line: &str) -> String {
     if line.starts_with("#") {
         let mut windows_command = String::from(line);
@@ -21,19 +46,23 @@ fn convert_line(line: &str) -> String {
             Some(space_index) => line.split_at(space_index),
         };
 
-        let mut windows_command = match shell_command {
-            "cp" => "xcopy".to_string(),
-            "mv" => "move".to_string(),
-            "ls" => "dir".to_string(),
-            "rm" => "del".to_string(),
-            "clear" => "cls".to_string(),
-            "grep" => "find".to_string(),
-            "pwd" => "chdir".to_string(),
-            "export" => "set".to_string(),
-            _ => shell_command.to_string(),
+        let (mut windows_command, flags_mappings) = match shell_command {
+            "cp" => ("xcopy".to_string(), vec![("-[rR]", "/E")]),
+            "mv" => ("move".to_string(), vec![]),
+            "ls" => ("dir".to_string(), vec![]),
+            "rm" => ("del".to_string(), vec![("-[rR]*[fF][rR]*", "/Q"), ("-[rR]+ ", " ")]),
+            "mkdir" => ("mkdir".to_string(), vec![("-[pP]", "")]),
+            "clear" => ("cls".to_string(), vec![]),
+            "grep" => ("find".to_string(), vec![]),
+            "pwd" => ("chdir".to_string(), vec![]),
+            "export" => ("set".to_string(), vec![]),
+            _ => (shell_command.to_string(), vec![]),
         };
 
-        windows_command.push_str(arguments);
+        // replace flags
+        let windows_arguments = replace_flags(arguments, flags_mappings);
+
+        windows_command.push_str(&windows_arguments);
 
         windows_command
     }

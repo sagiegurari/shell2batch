@@ -86,9 +86,33 @@
 //! extern crate shell2batch;
 //!
 //! fn main() {
-//!     let script = shell2batch::convert("rm ./myfile.txt");
+//!     let script = shell2batch::convert(
+//!         r#"
+//!         #this is some test code
+//!         cp file1 file2
 //!
-//!     assert_eq!(script, "del ./myfile.txt");
+//!         #another
+//!         mv file2 file3
+//!
+//!         #flags are supported
+//!         rm -Rf ./directory
+//!         "#
+//!     );
+//!
+//!     assert_eq!(
+//!         script,
+//!         r#"
+//! @REM this is some test code
+//! xcopy file1 file2
+//!
+//! @REM another
+//! move file2 file3
+//!
+//! @REM flags are supported
+//! del /Q ./directory
+//! "#
+//!     );
+//!
 //!     println!("Script: {}", script);
 //! }
 //! ```
@@ -113,6 +137,8 @@
 #[path = "./lib_test.rs"]
 mod lib_test;
 
+extern crate regex;
+
 mod converter;
 
 /// Converts the provided shell script and returns the windows batch script text.
@@ -123,9 +149,33 @@ mod converter;
 /// extern crate shell2batch;
 ///
 /// fn main() {
-///     let script = shell2batch::convert("rm ./myfile.txt");
+///     let script = shell2batch::convert(
+///         r#"
+///         #this is some test code
+///         cp file1 file2
 ///
-///     assert_eq!(script, "del ./myfile.txt");
+///         #another
+///         mv file2 file3
+///
+///         #flags are supported
+///         rm -Rf ./directory
+///         "#
+///     );
+///
+///     assert_eq!(
+///         script,
+///         r#"
+/// @REM this is some test code
+/// xcopy file1 file2
+///
+/// @REM another
+/// move file2 file3
+///
+/// @REM flags are supported
+/// del /Q ./directory
+/// "#
+///     );
+///
 ///     println!("Script: {}", script);
 /// }
 /// ```

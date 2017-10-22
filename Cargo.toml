@@ -1,6 +1,6 @@
 [package]
 name = "shell2batch"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Sagie Gur-Ari <sagiegurari@gmail.com>"]
 description = "Coverts simple basic shell scripts to windows batch scripts."
 license = "Apache-2.0"
@@ -21,6 +21,9 @@ include = [
     "/README.md",
     "/Makefile.toml"
 ]
+
+[dependencies]
+regex = "0.2.2"
 
 [features]
 default = []

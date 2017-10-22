@@ -25,24 +25,28 @@ fn convert_command() {
 fn convert_multi_line() {
     let output = convert(
         r#"
-
         #this is some test code
         cp file1 file2
 
         #another
         mv file2 file3
+
+        #flags are supported
+        rm -Rf ./directory
         "#
     );
 
     assert_eq!(
         output,
         r#"
-
 @REM this is some test code
 xcopy file1 file2
 
 @REM another
 move file2 file3
+
+@REM flags are supported
+del /Q ./directory
 "#
     );
 }

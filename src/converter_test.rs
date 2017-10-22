@@ -76,6 +76,13 @@ fn convert_line_cp() {
 }
 
 #[test]
+fn convert_line_cp_recursive() {
+    let output = convert_line("cp -r directory1 director2");
+
+    assert_eq!(output, "xcopy /E directory1 director2".to_string());
+}
+
+#[test]
 fn convert_line_mv() {
     let output = convert_line("mv file1 file2");
 
@@ -94,6 +101,41 @@ fn convert_line_rm() {
     let output = convert_line("rm file");
 
     assert_eq!(output, "del file".to_string());
+}
+
+#[test]
+fn convert_line_rm_no_prompt() {
+    let output = convert_line("rm -f file");
+
+    assert_eq!(output, "del /Q file".to_string());
+}
+
+#[test]
+fn convert_line_rm_recursive() {
+    let output = convert_line("rm -r file");
+
+    assert_eq!(output, "del  file".to_string());
+}
+
+#[test]
+fn convert_line_rm_no_prompt_and_recursive() {
+    let output = convert_line("rm -rf file");
+
+    assert_eq!(output, "del /Q file".to_string());
+}
+
+#[test]
+fn convert_line_mkdir() {
+    let output = convert_line("mkdir dir1/dir2");
+
+    assert_eq!(output, "mkdir dir1/dir2".to_string());
+}
+
+#[test]
+fn convert_line_mkdir_and_parents() {
+    let output = convert_line("mkdir -p dir1/dir2");
+
+    assert_eq!(output, "mkdir  dir1/dir2".to_string());
 }
 
 #[test]
