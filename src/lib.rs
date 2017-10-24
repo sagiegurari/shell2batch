@@ -88,41 +88,47 @@
 //! fn main() {
 //!     let script = shell2batch::convert(
 //!         r#"
+//!         export FILE1=file1
+//!         export FILE2=file2
+//!
 //!         #this is some test code
-//!         cp file1 file2
+//!         cp ${FILE1} $FILE2
 //!
 //!         #another
 //!         mv file2 file3
 //!
+//!         export MY_DIR=directory
+//!
 //!         #flags are supported
-//!         rm -Rf ./directory
+//!         rm -Rf ${MY_DIR}
+//!
+//!         unset MY_DIR
 //!         "#
 //!     );
 //!
 //!     assert_eq!(
 //!         script,
 //!         r#"
+//! set FILE1=file1
+//! set FILE2=file2
+//!
 //! @REM this is some test code
-//! xcopy file1 file2
+//! xcopy %FILE1% %FILE2%
 //!
 //! @REM another
 //! move file2 file3
 //!
+//! set MY_DIR=directory
+//!
 //! @REM flags are supported
-//! del /Q ./directory
+//! del /Q %MY_DIR%
+//!
+//! set MY_DIR=
 //! "#
 //!     );
 //!
 //!     println!("Script: {}", script);
 //! }
-//! ```
-//!
-//! # Installation
-//! In order to use this library, just add it as a dependency:
-//!
-//! ```ini
-//! [dependencies]
-//! shell2batch = "*"
 //! ```
 //!
 //! # Contributing
@@ -151,28 +157,42 @@ mod converter;
 /// fn main() {
 ///     let script = shell2batch::convert(
 ///         r#"
+///         export FILE1=file1
+///         export FILE2=file2
+///
 ///         #this is some test code
-///         cp file1 file2
+///         cp ${FILE1} $FILE2
 ///
 ///         #another
 ///         mv file2 file3
 ///
+///         export MY_DIR=directory
+///
 ///         #flags are supported
-///         rm -Rf ./directory
+///         rm -Rf ${MY_DIR}
+///
+///         unset MY_DIR
 ///         "#
 ///     );
 ///
 ///     assert_eq!(
 ///         script,
 ///         r#"
+/// set FILE1=file1
+/// set FILE2=file2
+///
 /// @REM this is some test code
-/// xcopy file1 file2
+/// xcopy %FILE1% %FILE2%
 ///
 /// @REM another
 /// move file2 file3
 ///
+/// set MY_DIR=directory
+///
 /// @REM flags are supported
-/// del /Q ./directory
+/// del /Q %MY_DIR%
+///
+/// set MY_DIR=
 /// "#
 ///     );
 ///

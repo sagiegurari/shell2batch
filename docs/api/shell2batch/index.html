@@ -48,7 +48,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/shell2batch/lib.rs.html#1-184' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/shell2batch/lib.rs.html#1-204' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'>
 <h1 id='shell2batch' class='section-header'><a href='#shell2batch'>shell2batch</a></h1>
 <p>Coverts simple basic shell scripts to windows batch scripts.</p>
@@ -65,40 +65,47 @@ way to write simple tasks with shell scripts without duplicating their code for 
 <span class="kw">fn</span> <span class="ident">main</span>() {
     <span class="kw">let</span> <span class="ident">script</span> <span class="op">=</span> <span class="ident">shell2batch</span>::<span class="ident">convert</span>(
         <span class="string">r#&quot;
+        export FILE1=file1
+        export FILE2=file2
+
         #this is some test code
-        cp file1 file2
+        cp ${FILE1} $FILE2
 
         #another
         mv file2 file3
 
+        export MY_DIR=directory
+
         #flags are supported
-        rm -Rf ./directory
+        rm -Rf ${MY_DIR}
+
+        unset MY_DIR
         &quot;#</span>
     );
 
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="ident">script</span>,
         <span class="string">r#&quot;
+set FILE1=file1
+set FILE2=file2
+
 @REM this is some test code
-xcopy file1 file2
+xcopy %FILE1% %FILE2%
 
 @REM another
 move file2 file3
 
+set MY_DIR=directory
+
 @REM flags are supported
-del /Q ./directory
+del /Q %MY_DIR%
+
+set MY_DIR=
 &quot;#</span>
     );
 
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Script: {}&quot;</span>, <span class="ident">script</span>);
 }</pre>
-
-<h1 id='installation' class='section-header'><a href='#installation'>Installation</a></h1>
-<p>In order to use this library, just add it as a dependency:</p>
-
-<pre><code class="language-ini">[dependencies]
-shell2batch = &quot;*&quot;
-</code></pre>
 
 <h1 id='contributing' class='section-header'><a href='#contributing'>Contributing</a></h1>
 <p>See <a href="https://github.com/sagiegurari/shell2batch/blob/master/.github/CONTRIBUTING.md">contributing guide</a></p>

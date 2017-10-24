@@ -1,6 +1,164 @@
 use super::*;
 
 #[test]
+fn add_arguments_empty_additional() {
+    let value = add_arguments("test", vec![]);
+
+    assert_eq!(value, "test".to_string());
+}
+
+#[test]
+fn add_arguments_all_empty() {
+    let value = add_arguments("test", vec![]);
+
+    assert_eq!(value, "test".to_string());
+}
+
+#[test]
+fn add_arguments_additional_values() {
+    let value = add_arguments("test", vec![" 1", " 2", " 3"]);
+
+    assert_eq!(value, "test 1 2 3".to_string());
+}
+
+#[test]
+fn add_arguments_empty_args_and_additional_values() {
+    let value = add_arguments("", vec!["1", " 2", " 3"]);
+
+    assert_eq!(value, "1 2 3".to_string());
+}
+
+#[test]
+fn replace_flags_all_empty() {
+    let value = replace_flags("", vec![]);
+
+    assert_eq!(value, "".to_string());
+}
+
+#[test]
+fn replace_flags_args_empty_replacment_existing() {
+    let value = replace_flags("", vec![("linux", "windows")]);
+
+    assert_eq!(value, "".to_string());
+}
+
+#[test]
+fn replace_flags_args_existing_replacment_empty() {
+    let value = replace_flags("linux", vec![]);
+
+    assert_eq!(value, "linux".to_string());
+}
+
+#[test]
+fn replace_flags_multiple() {
+    let value = replace_flags("linux1 LiNux2 somethingelse", vec![("linux1", "windows1"), ("[lL]i[nN]ux[1-9]", "windowsX"), ("unknown", "bad")]);
+
+    assert_eq!(value, "windows1 windowsX somethingelse".to_string());
+}
+
+#[test]
+fn replace_full_vars_empty() {
+    let value = replace_full_vars("");
+
+    assert_eq!(value, "".to_string());
+}
+
+#[test]
+fn replace_full_vars_not_found() {
+    let value = replace_full_vars("test 123");
+
+    assert_eq!(value, "test 123".to_string());
+}
+
+#[test]
+fn replace_full_vars_found() {
+    let mut value = replace_full_vars("test ${myvar} 123");
+    assert_eq!(value, "test %myvar% 123".to_string());
+
+    value = replace_full_vars("test ${myvar}");
+    assert_eq!(value, "test %myvar%".to_string());
+
+    value = replace_full_vars("test ${myvar} ${myvar2} somethingelse ${myvar3}");
+    assert_eq!(value, "test %myvar% %myvar2% somethingelse %myvar3%".to_string());
+}
+
+#[test]
+fn replace_partial_vars_empty() {
+    let value = replace_partial_vars("");
+
+    assert_eq!(value, "".to_string());
+}
+
+#[test]
+fn replace_partial_vars_not_found() {
+    let value = replace_partial_vars("test 123");
+
+    assert_eq!(value, "test 123".to_string());
+}
+
+#[test]
+fn replace_partial_vars_found() {
+    let mut value = replace_partial_vars("test $myvar 123");
+    assert_eq!(value, "test %myvar% 123".to_string());
+
+    value = replace_partial_vars("test $myvar");
+    assert_eq!(value, "test %myvar%".to_string());
+
+    value = replace_partial_vars("test $myvar $myvar2 somethingelse $myvar3");
+    assert_eq!(value, "test %myvar% %myvar2% somethingelse %myvar3%".to_string());
+}
+
+#[test]
+fn replace_vars_empty() {
+    let value = replace_vars("");
+
+    assert_eq!(value, "".to_string());
+}
+
+#[test]
+fn replace_vars_not_found() {
+    let value = replace_vars("test 123");
+
+    assert_eq!(value, "test 123".to_string());
+}
+
+#[test]
+fn replace_vars_full_syntax() {
+    let mut value = replace_vars("test ${myvar} 123");
+    assert_eq!(value, "test %myvar% 123".to_string());
+
+    value = replace_vars("test ${myvar}");
+    assert_eq!(value, "test %myvar%".to_string());
+
+    value = replace_vars("test ${myvar} ${myvar2} somethingelse ${myvar3}");
+    assert_eq!(value, "test %myvar% %myvar2% somethingelse %myvar3%".to_string());
+}
+
+#[test]
+fn replace_vars_partial_syntax() {
+    let mut value = replace_vars("test $myvar 123");
+    assert_eq!(value, "test %myvar% 123".to_string());
+
+    value = replace_vars("test $myvar");
+    assert_eq!(value, "test %myvar%".to_string());
+
+    value = replace_vars("test $myvar $myvar2 somethingelse $myvar3");
+    assert_eq!(value, "test %myvar% %myvar2% somethingelse %myvar3%".to_string());
+}
+
+#[test]
+fn replace_vars_mixed() {
+    let mut value = replace_vars("test $myvar ${myvar2} 123");
+    assert_eq!(value, "test %myvar% %myvar2% 123".to_string());
+
+    value = replace_vars("${somevar1} test $myvar");
+    assert_eq!(value, "%somevar1% test %myvar%".to_string());
+
+    value = replace_vars("test $myvar ${myvar2} somethingelse $myvar3");
+    assert_eq!(value, "test %myvar% %myvar2% somethingelse %myvar3%".to_string());
+}
+
+#[test]
 fn run_empty() {
     let output = run("");
 
@@ -164,4 +322,11 @@ fn convert_line_export() {
     let output = convert_line("export A=B");
 
     assert_eq!(output, "set A=B".to_string());
+}
+
+#[test]
+fn convert_line_unset() {
+    let output = convert_line("unset A");
+
+    assert_eq!(output, "set A=".to_string());
 }

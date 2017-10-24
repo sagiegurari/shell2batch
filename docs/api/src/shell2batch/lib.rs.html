@@ -227,6 +227,26 @@
 <span id="182">182</span>
 <span id="183">183</span>
 <span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
 </pre><pre class="rust ">
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">anonymous_parameters</span>,
         <span class="ident">const_err</span>,
@@ -318,41 +338,47 @@
 <span class="doccomment">//! fn main() {</span>
 <span class="doccomment">//!     let script = shell2batch::convert(</span>
 <span class="doccomment">//!         r#&quot;</span>
+<span class="doccomment">//!         export FILE1=file1</span>
+<span class="doccomment">//!         export FILE2=file2</span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//!         #this is some test code</span>
-<span class="doccomment">//!         cp file1 file2</span>
+<span class="doccomment">//!         cp ${FILE1} $FILE2</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!         #another</span>
 <span class="doccomment">//!         mv file2 file3</span>
 <span class="doccomment">//!</span>
+<span class="doccomment">//!         export MY_DIR=directory</span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//!         #flags are supported</span>
-<span class="doccomment">//!         rm -Rf ./directory</span>
+<span class="doccomment">//!         rm -Rf ${MY_DIR}</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!         unset MY_DIR</span>
 <span class="doccomment">//!         &quot;#</span>
 <span class="doccomment">//!     );</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     assert_eq!(</span>
 <span class="doccomment">//!         script,</span>
 <span class="doccomment">//!         r#&quot;</span>
+<span class="doccomment">//! set FILE1=file1</span>
+<span class="doccomment">//! set FILE2=file2</span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//! @REM this is some test code</span>
-<span class="doccomment">//! xcopy file1 file2</span>
+<span class="doccomment">//! xcopy %FILE1% %FILE2%</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! @REM another</span>
 <span class="doccomment">//! move file2 file3</span>
 <span class="doccomment">//!</span>
+<span class="doccomment">//! set MY_DIR=directory</span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//! @REM flags are supported</span>
-<span class="doccomment">//! del /Q ./directory</span>
+<span class="doccomment">//! del /Q %MY_DIR%</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! set MY_DIR=</span>
 <span class="doccomment">//! &quot;#</span>
 <span class="doccomment">//!     );</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     println!(&quot;Script: {}&quot;, script);</span>
 <span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # Installation</span>
-<span class="doccomment">//! In order to use this library, just add it as a dependency:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```ini</span>
-<span class="doccomment">//! [dependencies]</span>
-<span class="doccomment">//! shell2batch = &quot;*&quot;</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! # Contributing</span>
@@ -381,28 +407,42 @@
 <span class="doccomment">/// fn main() {</span>
 <span class="doccomment">///     let script = shell2batch::convert(</span>
 <span class="doccomment">///         r#&quot;</span>
+<span class="doccomment">///         export FILE1=file1</span>
+<span class="doccomment">///         export FILE2=file2</span>
+<span class="doccomment">///</span>
 <span class="doccomment">///         #this is some test code</span>
-<span class="doccomment">///         cp file1 file2</span>
+<span class="doccomment">///         cp ${FILE1} $FILE2</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///         #another</span>
 <span class="doccomment">///         mv file2 file3</span>
 <span class="doccomment">///</span>
+<span class="doccomment">///         export MY_DIR=directory</span>
+<span class="doccomment">///</span>
 <span class="doccomment">///         #flags are supported</span>
-<span class="doccomment">///         rm -Rf ./directory</span>
+<span class="doccomment">///         rm -Rf ${MY_DIR}</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///         unset MY_DIR</span>
 <span class="doccomment">///         &quot;#</span>
 <span class="doccomment">///     );</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///     assert_eq!(</span>
 <span class="doccomment">///         script,</span>
 <span class="doccomment">///         r#&quot;</span>
+<span class="doccomment">/// set FILE1=file1</span>
+<span class="doccomment">/// set FILE2=file2</span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// @REM this is some test code</span>
-<span class="doccomment">/// xcopy file1 file2</span>
+<span class="doccomment">/// xcopy %FILE1% %FILE2%</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// @REM another</span>
 <span class="doccomment">/// move file2 file3</span>
 <span class="doccomment">///</span>
+<span class="doccomment">/// set MY_DIR=directory</span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// @REM flags are supported</span>
-<span class="doccomment">/// del /Q ./directory</span>
+<span class="doccomment">/// del /Q %MY_DIR%</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// set MY_DIR=</span>
 <span class="doccomment">/// &quot;#</span>
 <span class="doccomment">///     );</span>
 <span class="doccomment">///</span>
