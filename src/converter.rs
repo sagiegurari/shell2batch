@@ -36,7 +36,7 @@ fn replace_full_vars(arguments: &str) -> String {
 
     buffer.push(parts.remove(0));
 
-    for mut part in parts {
+    for part in parts {
         let (before, after, found) = match part.find("}") {
             None => (part, "", false),
             Some(index) => {
@@ -69,7 +69,7 @@ fn replace_partial_vars(arguments: &str) -> String {
 
     buffer.push(parts.remove(0));
 
-    for mut part in parts {
+    for part in parts {
         let (before, after) = match part.find(" ") {
             None => (part, ""),
             Some(index) => part.split_at(index),
