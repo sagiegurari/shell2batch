@@ -1,6 +1,6 @@
 [package]
 name = "shell2batch"
-version = "0.1.4"
+version = "0.1.5"
 authors = ["Sagie Gur-Ari <sagiegurari@gmail.com>"]
 description = "Coverts simple basic shell scripts to windows batch scripts."
 license = "Apache-2.0"

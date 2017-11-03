@@ -1,7 +1,7 @@
 # shell2batch
 
 [![crates.io](https://img.shields.io/crates/v/shell2batch.svg)](https://crates.io/crates/shell2batch) [![Build Status](https://travis-ci.org/sagiegurari/shell2batch.svg)](http://travis-ci.org/sagiegurari/shell2batch) [![Build status](https://ci.appveyor.com/api/projects/status/yrb4y9cbaf6wtlk7?svg=true)](https://ci.appveyor.com/project/sagiegurari/shell2batch) [![codecov](https://codecov.io/gh/sagiegurari/shell2batch/branch/master/graph/badge.svg)](https://codecov.io/gh/sagiegurari/shell2batch)<br>
-[![license](https://img.shields.io/github/license/sagiegurari/shell2batch.svg)](https://github.com/sagiegurari/shell2batch/blob/master/LICENSE) [![Libraries.io for GitHub](https://img.shields.io/librariesio/github/sagiegurari/shell2batch.svg)](https://libraries.io/cargo/shell2batch) [![Documentation](https://docs.rs/shell2batch/badge.svg)](https://docs.rs/crate/shell2batch/) [![downloads](https://img.shields.io/crates/d/shell2batch.svg)](https://crates.io/crates/shell2batch)<br>
+[![license](https://img.shields.io/crates/l/shell2batch.svg)](https://github.com/sagiegurari/shell2batch/blob/master/LICENSE) [![Libraries.io for GitHub](https://img.shields.io/librariesio/github/sagiegurari/shell2batch.svg)](https://libraries.io/cargo/shell2batch) [![Documentation](https://docs.rs/shell2batch/badge.svg)](https://docs.rs/crate/shell2batch/) [![downloads](https://img.shields.io/crates/d/shell2batch.svg)](https://crates.io/crates/shell2batch)<br>
 [![Built with cargo-make](https://sagiegurari.github.io/cargo-make/assets/badges/cargo-make.svg)](https://sagiegurari.github.io/cargo-make)
 
 > Coverts simple basic shell scripts to windows batch scripts.
@@ -92,6 +92,7 @@ See [contributing guide](.github/CONTRIBUTING.md)
 
 | Date        | Version | Description |
 | ----------- | ------- | ----------- |
+| 2017-11-03  | v0.1.5  | Maintenance |
 | 2017-10-24  | v0.1.4  | Variable replacement support. |
 | 2017-10-22  | v0.1.2  | Added command flags replacements. |
 | 2017-10-21  | v0.1.0  | Initial release. |
