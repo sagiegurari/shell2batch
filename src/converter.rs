@@ -168,7 +168,7 @@ fn convert_line(line: &str) -> String {
 }
 
 /// Converts the provided shell script and returns the windows batch script text.
-pub fn run(script: &str) -> String {
+pub(crate) fn run(script: &str) -> String {
     let lines: Vec<&str> = script.split('\n').collect();
     let mut windows_batch = vec![];
 
