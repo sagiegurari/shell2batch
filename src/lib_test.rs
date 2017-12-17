@@ -33,7 +33,7 @@ fn convert_multi_line() {
 
         #flags are supported
         rm -Rf ./directory
-        "#
+        "#,
     );
 
     assert_eq!(

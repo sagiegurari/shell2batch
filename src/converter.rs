@@ -9,10 +9,7 @@ mod converter_test;
 
 use regex::Regex;
 
-fn replace_flags(
-    arguments: &str,
-    flags_mappings: Vec<(&str, &str)>,
-) -> String {
+fn replace_flags(arguments: &str, flags_mappings: Vec<(&str, &str)>) -> String {
     let mut windows_arguments = arguments.clone().to_string();
 
     for flags in flags_mappings {
@@ -94,10 +91,7 @@ fn replace_vars(arguments: &str) -> String {
     updated_arguments
 }
 
-fn add_arguments(
-    arguments: &str,
-    additional_arguments: Vec<(&str)>,
-) -> String {
+fn add_arguments(arguments: &str, additional_arguments: Vec<(&str)>) -> String {
     let mut windows_arguments = arguments.clone().to_string();
 
     for additional_argument in additional_arguments {
@@ -127,7 +121,11 @@ fn convert_line(line: &str) -> String {
             "cp" => ("xcopy".to_string(), vec![("-[rR]", "/E")], vec![]),
             "mv" => ("move".to_string(), vec![], vec![]),
             "ls" => ("dir".to_string(), vec![], vec![]),
-            "rm" => ("del".to_string(), vec![("-[rR]*[fF][rR]*", "/Q"), ("-[rR]+ ", " ")], vec![]),
+            "rm" => (
+                "del".to_string(),
+                vec![("-[rR]*[fF][rR]*", "/Q"), ("-[rR]+ ", " ")],
+                vec![],
+            ),
             "mkdir" => ("mkdir".to_string(), vec![("-[pP]", "")], vec![]),
             "clear" => ("cls".to_string(), vec![], vec![]),
             "grep" => ("find".to_string(), vec![], vec![]),

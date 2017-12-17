@@ -51,7 +51,14 @@ fn replace_flags_args_existing_replacment_empty() {
 
 #[test]
 fn replace_flags_multiple() {
-    let value = replace_flags("linux1 LiNux2 somethingelse", vec![("linux1", "windows1"), ("[lL]i[nN]ux[1-9]", "windowsX"), ("unknown", "bad")]);
+    let value = replace_flags(
+        "linux1 LiNux2 somethingelse",
+        vec![
+            ("linux1", "windows1"),
+            ("[lL]i[nN]ux[1-9]", "windowsX"),
+            ("unknown", "bad"),
+        ],
+    );
 
     assert_eq!(value, "windows1 windowsX somethingelse".to_string());
 }
@@ -79,7 +86,10 @@ fn replace_full_vars_found() {
     assert_eq!(value, "test %myvar%".to_string());
 
     value = replace_full_vars("test ${myvar} ${myvar2} somethingelse ${myvar3}");
-    assert_eq!(value, "test %myvar% %myvar2% somethingelse %myvar3%".to_string());
+    assert_eq!(
+        value,
+        "test %myvar% %myvar2% somethingelse %myvar3%".to_string()
+    );
 }
 
 #[test]
@@ -105,7 +115,10 @@ fn replace_partial_vars_found() {
     assert_eq!(value, "test %myvar%".to_string());
 
     value = replace_partial_vars("test $myvar $myvar2 somethingelse $myvar3");
-    assert_eq!(value, "test %myvar% %myvar2% somethingelse %myvar3%".to_string());
+    assert_eq!(
+        value,
+        "test %myvar% %myvar2% somethingelse %myvar3%".to_string()
+    );
 }
 
 #[test]
@@ -131,7 +144,10 @@ fn replace_vars_full_syntax() {
     assert_eq!(value, "test %myvar%".to_string());
 
     value = replace_vars("test ${myvar} ${myvar2} somethingelse ${myvar3}");
-    assert_eq!(value, "test %myvar% %myvar2% somethingelse %myvar3%".to_string());
+    assert_eq!(
+        value,
+        "test %myvar% %myvar2% somethingelse %myvar3%".to_string()
+    );
 }
 
 #[test]
@@ -143,7 +159,10 @@ fn replace_vars_partial_syntax() {
     assert_eq!(value, "test %myvar%".to_string());
 
     value = replace_vars("test $myvar $myvar2 somethingelse $myvar3");
-    assert_eq!(value, "test %myvar% %myvar2% somethingelse %myvar3%".to_string());
+    assert_eq!(
+        value,
+        "test %myvar% %myvar2% somethingelse %myvar3%".to_string()
+    );
 }
 
 #[test]
@@ -155,7 +174,10 @@ fn replace_vars_mixed() {
     assert_eq!(value, "%somevar1% test %myvar%".to_string());
 
     value = replace_vars("test $myvar ${myvar2} somethingelse $myvar3");
-    assert_eq!(value, "test %myvar% %myvar2% somethingelse %myvar3%".to_string());
+    assert_eq!(
+        value,
+        "test %myvar% %myvar2% somethingelse %myvar3%".to_string()
+    );
 }
 
 #[test]
@@ -181,16 +203,14 @@ fn run_command() {
 
 #[test]
 fn run_multi_line() {
-    let output = run(
-        r#"
+    let output = run(r#"
 
         #this is some test code
         cp file1 file2
 
         #another
         mv file2 file3
-        "#
-    );
+        "#);
 
     assert_eq!(
         output,
