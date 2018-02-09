@@ -15,7 +15,7 @@ fn convert(bencher: &mut Bencher) {
 
             #another
             mv file2 file3
-            "#
+            "#,
         );
 
         assert_eq!(

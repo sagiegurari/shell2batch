@@ -19,7 +19,7 @@ fn convert() {
         rm -Rf ${MY_DIR}
 
         unset MY_DIR
-        "#
+        "#,
     );
 
     assert_eq!(
