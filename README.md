@@ -92,7 +92,7 @@ See [contributing guide](.github/CONTRIBUTING.md)
 
 | Date        | Version | Description |
 | ----------- | ------- | ----------- |
-| 2018-03-12  | v0.1.15 | Maintenance |
+| 2018-03-13  | v0.1.16 | Maintenance |
 | 2017-10-24  | v0.1.4  | Variable replacement support. |
 | 2017-10-22  | v0.1.2  | Added command flags replacements. |
 | 2017-10-21  | v0.1.0  | Initial release. |
