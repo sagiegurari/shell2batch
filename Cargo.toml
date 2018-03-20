@@ -23,7 +23,7 @@ include = [
 ]
 
 [dependencies]
-regex = "^0.2.9"
+regex = "^0.2.10"
 
 [features]
 default = []
