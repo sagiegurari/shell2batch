@@ -186,6 +186,21 @@
 <span id="186">186</span>
 <span id="187">187</span>
 <span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! # converter</span>
 <span class="doccomment">//!</span>
@@ -310,11 +325,26 @@
             <span class="string">&quot;cp&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;xcopy&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[(<span class="string">&quot;-[rR]&quot;</span>, <span class="string">&quot;/E&quot;</span>)], <span class="macro">vec</span><span class="macro">!</span>[]),
             <span class="string">&quot;mv&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;move&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[]),
             <span class="string">&quot;ls&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;dir&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="string">&quot;rm&quot;</span> <span class="op">=&gt;</span> (
-                <span class="string">&quot;del&quot;</span>.<span class="ident">to_string</span>(),
-                <span class="macro">vec</span><span class="macro">!</span>[(<span class="string">&quot;-[rR]*[fF][rR]*&quot;</span>, <span class="string">&quot;/Q&quot;</span>), (<span class="string">&quot;-[rR]+ &quot;</span>, <span class="string">&quot; &quot;</span>)],
-                <span class="macro">vec</span><span class="macro">!</span>[],
-            ),
+            <span class="string">&quot;rm&quot;</span> <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">win_cmd</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">Regex</span>::<span class="ident">new</span>(<span class="string">&quot;-[^ ]*[rR]&quot;</span>) {
+                    <span class="prelude-val">Ok</span>(<span class="ident">regex_instance</span>) <span class="op">=&gt;</span> {
+                        <span class="kw">if</span> <span class="ident">regex_instance</span>.<span class="ident">is_match</span>(<span class="ident">arguments</span>) {
+                            <span class="string">&quot;rmdir&quot;</span>.<span class="ident">to_string</span>()
+                        } <span class="kw">else</span> {
+                            <span class="string">&quot;del&quot;</span>.<span class="ident">to_string</span>()
+                        }
+                    }
+                    <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="string">&quot;del&quot;</span>.<span class="ident">to_string</span>(),
+                };
+
+                <span class="kw">let</span> <span class="ident">flags_mappings</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">win_cmd</span> <span class="op">==</span> <span class="string">&quot;rmdir&quot;</span>.<span class="ident">to_string</span>() {
+                    <span class="macro">vec</span><span class="macro">!</span>[(<span class="string">&quot;-([rR][fF]|[fF][rR]) &quot;</span>, <span class="string">&quot;/S /Q &quot;</span>), (<span class="string">&quot;-[rR]+ &quot;</span>, <span class="string">&quot;/S &quot;</span>)]
+                } <span class="kw">else</span> {
+                    <span class="macro">vec</span><span class="macro">!</span>[(<span class="string">&quot;-[fF] &quot;</span>, <span class="string">&quot;/Q &quot;</span>)]
+                };
+
+                (<span class="ident">win_cmd</span>, <span class="ident">flags_mappings</span>, <span class="macro">vec</span><span class="macro">!</span>[])
+            }
             <span class="string">&quot;mkdir&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;mkdir&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[(<span class="string">&quot;-[pP]&quot;</span>, <span class="string">&quot;&quot;</span>)], <span class="macro">vec</span><span class="macro">!</span>[]),
             <span class="string">&quot;clear&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;cls&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[]),
             <span class="string">&quot;grep&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;find&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[]),

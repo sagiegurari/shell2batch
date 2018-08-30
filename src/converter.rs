@@ -121,11 +121,26 @@ fn convert_line(line: &str) -> String {
             "cp" => ("xcopy".to_string(), vec![("-[rR]", "/E")], vec![]),
             "mv" => ("move".to_string(), vec![], vec![]),
             "ls" => ("dir".to_string(), vec![], vec![]),
-            "rm" => (
-                "del".to_string(),
-                vec![("-[rR]*[fF][rR]*", "/Q"), ("-[rR]+ ", " ")],
-                vec![],
-            ),
+            "rm" => {
+                let win_cmd = match Regex::new("-[^ ]*[rR]") {
+                    Ok(regex_instance) => {
+                        if regex_instance.is_match(arguments) {
+                            "rmdir".to_string()
+                        } else {
+                            "del".to_string()
+                        }
+                    }
+                    Err(_) => "del".to_string(),
+                };
+
+                let flags_mappings = if win_cmd == "rmdir".to_string() {
+                    vec![("-([rR][fF]|[fF][rR]) ", "/S /Q "), ("-[rR]+ ", "/S ")]
+                } else {
+                    vec![("-[fF] ", "/Q ")]
+                };
+
+                (win_cmd, flags_mappings, vec![])
+            }
             "mkdir" => ("mkdir".to_string(), vec![("-[pP]", "")], vec![]),
             "clear" => ("cls".to_string(), vec![], vec![]),
             "grep" => ("find".to_string(), vec![], vec![]),

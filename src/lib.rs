@@ -143,7 +143,7 @@
 //! set MY_DIR=directory
 //!
 //! @REM flags are supported
-//! del /Q %MY_DIR%
+//! rmdir /S /Q %MY_DIR%
 //!
 //! set MY_DIR=
 //! "#
@@ -212,7 +212,7 @@ mod converter;
 /// set MY_DIR=directory
 ///
 /// @REM flags are supported
-/// del /Q %MY_DIR%
+/// rmdir /S /Q %MY_DIR%
 ///
 /// set MY_DIR=
 /// "#

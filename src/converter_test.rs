@@ -292,14 +292,35 @@ fn convert_line_rm_no_prompt() {
 fn convert_line_rm_recursive() {
     let output = convert_line("rm -r file");
 
-    assert_eq!(output, "del  file".to_string());
+    assert_eq!(output, "rmdir /S file".to_string());
 }
 
 #[test]
-fn convert_line_rm_no_prompt_and_recursive() {
+fn convert_line_rm_no_prompt_and_recursive_v1() {
     let output = convert_line("rm -rf file");
 
-    assert_eq!(output, "del /Q file".to_string());
+    assert_eq!(output, "rmdir /S /Q file".to_string());
+}
+
+#[test]
+fn convert_line_rm_no_prompt_and_recursive_v2() {
+    let output = convert_line("rm -fr file");
+
+    assert_eq!(output, "rmdir /S /Q file".to_string());
+}
+
+#[test]
+fn convert_line_rm_no_prompt_and_recursive_v3() {
+    let output = convert_line("rm -Rf file");
+
+    assert_eq!(output, "rmdir /S /Q file".to_string());
+}
+
+#[test]
+fn convert_line_rm_no_prompt_and_recursive_v4() {
+    let output = convert_line("rm -fR file");
+
+    assert_eq!(output, "rmdir /S /Q file".to_string());
 }
 
 #[test]
