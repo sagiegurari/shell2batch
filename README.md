@@ -92,6 +92,7 @@ See [contributing guide](.github/CONTRIBUTING.md)
 
 | Date        | Version | Description |
 | ----------- | ------- | ----------- |
+| 2018-10-31  | v0.2.1  | Maintenance |
 | 2018-08-30  | v0.2.0  | Fix remove directory command #1 |
 | 2017-10-24  | v0.1.4  | Variable replacement support. |
 | 2017-10-22  | v0.1.2  | Added command flags replacements. |

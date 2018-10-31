@@ -1,6 +1,6 @@
 [package]
 name = "shell2batch"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Sagie Gur-Ari <sagiegurari@gmail.com>"]
 description = "Coverts simple basic shell scripts to windows batch scripts."
 license = "Apache-2.0"
@@ -23,7 +23,7 @@ include = [
 ]
 
 [dependencies]
-regex = "^1.0.4"
+regex = "^1.0.5"
 
 [features]
 default = []
