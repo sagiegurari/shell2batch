@@ -1,2 +1,2 @@
 var ALIASES = {};
-ALIASES['shell2batch'] = {};
+ALIASES["shell2batch"] = {};
