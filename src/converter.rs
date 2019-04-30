@@ -111,48 +111,58 @@ fn convert_line(line: &str) -> String {
     } else {
         // assume first word is the command
         let (shell_command, mut arguments) = match line.find(" ") {
-            None => (line, ""),
-            Some(index) => line.split_at(index),
-        };
+            None => (line, "".to_string()),
+            Some(index) => {
+                let (shell_command, arguments_str) = line.split_at(index);
 
-        arguments = arguments.trim();
-
-        let (mut windows_command, flags_mappings, additional_arguments) = match shell_command {
-            "cp" => ("xcopy".to_string(), vec![("-[rR]", "/E")], vec![]),
-            "mv" => ("move".to_string(), vec![], vec![]),
-            "ls" => ("dir".to_string(), vec![], vec![]),
-            "rm" => {
-                let win_cmd = match Regex::new("-[^ ]*[rR]") {
-                    Ok(regex_instance) => {
-                        if regex_instance.is_match(arguments) {
-                            "rmdir".to_string()
-                        } else {
-                            "del".to_string()
-                        }
-                    }
-                    Err(_) => "del".to_string(),
-                };
-
-                let flags_mappings = if win_cmd == "rmdir".to_string() {
-                    vec![("-([rR][fF]|[fF][rR]) ", "/S /Q "), ("-[rR]+ ", "/S ")]
-                } else {
-                    vec![("-[fF] ", "/Q ")]
-                };
-
-                (win_cmd, flags_mappings, vec![])
+                (shell_command, arguments_str.to_string())
             }
-            "mkdir" => ("mkdir".to_string(), vec![("-[pP]", "")], vec![]),
-            "clear" => ("cls".to_string(), vec![], vec![]),
-            "grep" => ("find".to_string(), vec![], vec![]),
-            "pwd" => ("chdir".to_string(), vec![], vec![]),
-            "export" => ("set".to_string(), vec![], vec![]),
-            "unset" => ("set".to_string(), vec![], vec!["="]),
-            _ => (shell_command.to_string(), vec![], vec![]),
         };
+
+        arguments = arguments.trim().to_string();
+
+        let (mut windows_command, flags_mappings, additional_arguments, modify_path_separator) =
+            match shell_command {
+                "cp" => ("xcopy".to_string(), vec![("-[rR]", "/E")], vec![], true),
+                "mv" => ("move".to_string(), vec![], vec![], true),
+                "ls" => ("dir".to_string(), vec![], vec![], true),
+                "rm" => {
+                    let win_cmd = match Regex::new("-[^ ]*[rR]") {
+                        Ok(regex_instance) => {
+                            if regex_instance.is_match(&arguments) {
+                                "rmdir".to_string()
+                            } else {
+                                "del".to_string()
+                            }
+                        }
+                        Err(_) => "del".to_string(),
+                    };
+
+                    let flags_mappings = if win_cmd == "rmdir".to_string() {
+                        vec![("-([rR][fF]|[fF][rR]) ", "/S /Q "), ("-[rR]+ ", "/S ")]
+                    } else {
+                        vec![("-[fF] ", "/Q ")]
+                    };
+
+                    (win_cmd, flags_mappings, vec![], true)
+                }
+                "mkdir" => ("mkdir".to_string(), vec![("-[pP]", "")], vec![], true),
+                "clear" => ("cls".to_string(), vec![], vec![], false),
+                "grep" => ("find".to_string(), vec![], vec![], false),
+                "pwd" => ("chdir".to_string(), vec![], vec![], false),
+                "export" => ("set".to_string(), vec![], vec![], false),
+                "unset" => ("set".to_string(), vec![], vec!["="], false),
+                _ => (shell_command.to_string(), vec![], vec![], false),
+            };
+
+        // modify paths
+        if modify_path_separator {
+            arguments = arguments.replace("/", "\\");
+        }
 
         // replace flags
         let mut windows_arguments = if flags_mappings.len() > 0 {
-            replace_flags(arguments, flags_mappings)
+            replace_flags(&arguments, flags_mappings)
         } else {
             arguments.to_string()
         };

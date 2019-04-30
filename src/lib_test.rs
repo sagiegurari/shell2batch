@@ -46,7 +46,7 @@ xcopy file1 file2
 move file2 file3
 
 @REM flags are supported
-rmdir /S /Q ./directory
+rmdir /S /Q .\directory
 "#
     );
 }

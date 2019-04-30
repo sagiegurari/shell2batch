@@ -234,37 +234,40 @@ fn convert_line_empty() {
 
 #[test]
 fn convert_line_unhandled() {
-    let output = convert_line("newcommand arg1 arg2");
+    let output = convert_line("newcommand path/arg1 path/arg2");
 
-    assert_eq!(output, "newcommand arg1 arg2".to_string());
+    assert_eq!(output, "newcommand path/arg1 path/arg2".to_string());
 }
 
 #[test]
 fn convert_line_comment() {
-    let output = convert_line("#test");
+    let output = convert_line("#test/test");
 
-    assert_eq!(output, "@REM test".to_string());
+    assert_eq!(output, "@REM test/test".to_string());
 }
 
 #[test]
 fn convert_line_cp() {
-    let output = convert_line("cp file1 file2");
+    let output = convert_line("cp dir/file1 dir/file2");
 
-    assert_eq!(output, "xcopy file1 file2".to_string());
+    assert_eq!(output, "xcopy dir\\file1 dir\\file2".to_string());
 }
 
 #[test]
 fn convert_line_cp_recursive() {
-    let output = convert_line("cp -r directory1 director2");
+    let output = convert_line("cp -r directory/sub1 director/sub2");
 
-    assert_eq!(output, "xcopy /E directory1 director2".to_string());
+    assert_eq!(
+        output,
+        "xcopy /E directory\\sub1 director\\sub2".to_string()
+    );
 }
 
 #[test]
 fn convert_line_mv() {
-    let output = convert_line("mv file1 file2");
+    let output = convert_line("mv dir/file1 dir/file2");
 
-    assert_eq!(output, "move file1 file2".to_string());
+    assert_eq!(output, "move dir\\file1 dir\\file2".to_string());
 }
 
 #[test]
@@ -276,65 +279,65 @@ fn convert_line_ls() {
 
 #[test]
 fn convert_line_rm() {
-    let output = convert_line("rm file");
+    let output = convert_line("rm dir/file");
 
-    assert_eq!(output, "del file".to_string());
+    assert_eq!(output, "del dir\\file".to_string());
 }
 
 #[test]
 fn convert_line_rm_no_prompt() {
-    let output = convert_line("rm -f file");
+    let output = convert_line("rm -f dir/file");
 
-    assert_eq!(output, "del /Q file".to_string());
+    assert_eq!(output, "del /Q dir\\file".to_string());
 }
 
 #[test]
 fn convert_line_rm_recursive() {
-    let output = convert_line("rm -r file");
+    let output = convert_line("rm -r dir/file");
 
-    assert_eq!(output, "rmdir /S file".to_string());
+    assert_eq!(output, "rmdir /S dir\\file".to_string());
 }
 
 #[test]
 fn convert_line_rm_no_prompt_and_recursive_v1() {
-    let output = convert_line("rm -rf file");
+    let output = convert_line("rm -rf dir/file");
 
-    assert_eq!(output, "rmdir /S /Q file".to_string());
+    assert_eq!(output, "rmdir /S /Q dir\\file".to_string());
 }
 
 #[test]
 fn convert_line_rm_no_prompt_and_recursive_v2() {
-    let output = convert_line("rm -fr file");
+    let output = convert_line("rm -fr dir/file");
 
-    assert_eq!(output, "rmdir /S /Q file".to_string());
+    assert_eq!(output, "rmdir /S /Q dir\\file".to_string());
 }
 
 #[test]
 fn convert_line_rm_no_prompt_and_recursive_v3() {
-    let output = convert_line("rm -Rf file");
+    let output = convert_line("rm -Rf dir/file");
 
-    assert_eq!(output, "rmdir /S /Q file".to_string());
+    assert_eq!(output, "rmdir /S /Q dir\\file".to_string());
 }
 
 #[test]
 fn convert_line_rm_no_prompt_and_recursive_v4() {
-    let output = convert_line("rm -fR file");
+    let output = convert_line("rm -fR dir/file");
 
-    assert_eq!(output, "rmdir /S /Q file".to_string());
+    assert_eq!(output, "rmdir /S /Q dir\\file".to_string());
 }
 
 #[test]
 fn convert_line_mkdir() {
     let output = convert_line("mkdir dir1/dir2");
 
-    assert_eq!(output, "mkdir dir1/dir2".to_string());
+    assert_eq!(output, "mkdir dir1\\dir2".to_string());
 }
 
 #[test]
 fn convert_line_mkdir_and_parents() {
     let output = convert_line("mkdir -p dir1/dir2");
 
-    assert_eq!(output, "mkdir  dir1/dir2".to_string());
+    assert_eq!(output, "mkdir  dir1\\dir2".to_string());
 }
 
 #[test]
