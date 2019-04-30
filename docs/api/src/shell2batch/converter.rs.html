@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/converter.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>converter.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/converter.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>converter.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../shell2batch/index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -201,6 +201,16 @@
 <span id="201">201</span>
 <span id="202">202</span>
 <span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! # converter</span>
 <span class="doccomment">//!</span>
@@ -315,48 +325,58 @@
     } <span class="kw">else</span> {
         <span class="comment">// assume first word is the command</span>
         <span class="kw">let</span> (<span class="ident">shell_command</span>, <span class="kw-2">mut</span> <span class="ident">arguments</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">line</span>.<span class="ident">find</span>(<span class="string">&quot; &quot;</span>) {
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> (<span class="ident">line</span>, <span class="string">&quot;&quot;</span>),
-            <span class="prelude-val">Some</span>(<span class="ident">index</span>) <span class="op">=&gt;</span> <span class="ident">line</span>.<span class="ident">split_at</span>(<span class="ident">index</span>),
-        };
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> (<span class="ident">line</span>, <span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>()),
+            <span class="prelude-val">Some</span>(<span class="ident">index</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> (<span class="ident">shell_command</span>, <span class="ident">arguments_str</span>) <span class="op">=</span> <span class="ident">line</span>.<span class="ident">split_at</span>(<span class="ident">index</span>);
 
-        <span class="ident">arguments</span> <span class="op">=</span> <span class="ident">arguments</span>.<span class="ident">trim</span>();
-
-        <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">windows_command</span>, <span class="ident">flags_mappings</span>, <span class="ident">additional_arguments</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">shell_command</span> {
-            <span class="string">&quot;cp&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;xcopy&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[(<span class="string">&quot;-[rR]&quot;</span>, <span class="string">&quot;/E&quot;</span>)], <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="string">&quot;mv&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;move&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="string">&quot;ls&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;dir&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="string">&quot;rm&quot;</span> <span class="op">=&gt;</span> {
-                <span class="kw">let</span> <span class="ident">win_cmd</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">Regex</span>::<span class="ident">new</span>(<span class="string">&quot;-[^ ]*[rR]&quot;</span>) {
-                    <span class="prelude-val">Ok</span>(<span class="ident">regex_instance</span>) <span class="op">=&gt;</span> {
-                        <span class="kw">if</span> <span class="ident">regex_instance</span>.<span class="ident">is_match</span>(<span class="ident">arguments</span>) {
-                            <span class="string">&quot;rmdir&quot;</span>.<span class="ident">to_string</span>()
-                        } <span class="kw">else</span> {
-                            <span class="string">&quot;del&quot;</span>.<span class="ident">to_string</span>()
-                        }
-                    }
-                    <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="string">&quot;del&quot;</span>.<span class="ident">to_string</span>(),
-                };
-
-                <span class="kw">let</span> <span class="ident">flags_mappings</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">win_cmd</span> <span class="op">==</span> <span class="string">&quot;rmdir&quot;</span>.<span class="ident">to_string</span>() {
-                    <span class="macro">vec</span><span class="macro">!</span>[(<span class="string">&quot;-([rR][fF]|[fF][rR]) &quot;</span>, <span class="string">&quot;/S /Q &quot;</span>), (<span class="string">&quot;-[rR]+ &quot;</span>, <span class="string">&quot;/S &quot;</span>)]
-                } <span class="kw">else</span> {
-                    <span class="macro">vec</span><span class="macro">!</span>[(<span class="string">&quot;-[fF] &quot;</span>, <span class="string">&quot;/Q &quot;</span>)]
-                };
-
-                (<span class="ident">win_cmd</span>, <span class="ident">flags_mappings</span>, <span class="macro">vec</span><span class="macro">!</span>[])
+                (<span class="ident">shell_command</span>, <span class="ident">arguments_str</span>.<span class="ident">to_string</span>())
             }
-            <span class="string">&quot;mkdir&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;mkdir&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[(<span class="string">&quot;-[pP]&quot;</span>, <span class="string">&quot;&quot;</span>)], <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="string">&quot;clear&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;cls&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="string">&quot;grep&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;find&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="string">&quot;pwd&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;chdir&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="string">&quot;export&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;set&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="string">&quot;unset&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;set&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;=&quot;</span>]),
-            <span class="kw">_</span> <span class="op">=&gt;</span> (<span class="ident">shell_command</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[]),
         };
+
+        <span class="ident">arguments</span> <span class="op">=</span> <span class="ident">arguments</span>.<span class="ident">trim</span>().<span class="ident">to_string</span>();
+
+        <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">windows_command</span>, <span class="ident">flags_mappings</span>, <span class="ident">additional_arguments</span>, <span class="ident">modify_path_separator</span>) <span class="op">=</span>
+            <span class="kw">match</span> <span class="ident">shell_command</span> {
+                <span class="string">&quot;cp&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;xcopy&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[(<span class="string">&quot;-[rR]&quot;</span>, <span class="string">&quot;/E&quot;</span>)], <span class="macro">vec</span><span class="macro">!</span>[], <span class="bool-val">true</span>),
+                <span class="string">&quot;mv&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;move&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[], <span class="bool-val">true</span>),
+                <span class="string">&quot;ls&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;dir&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[], <span class="bool-val">true</span>),
+                <span class="string">&quot;rm&quot;</span> <span class="op">=&gt;</span> {
+                    <span class="kw">let</span> <span class="ident">win_cmd</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">Regex</span>::<span class="ident">new</span>(<span class="string">&quot;-[^ ]*[rR]&quot;</span>) {
+                        <span class="prelude-val">Ok</span>(<span class="ident">regex_instance</span>) <span class="op">=&gt;</span> {
+                            <span class="kw">if</span> <span class="ident">regex_instance</span>.<span class="ident">is_match</span>(<span class="kw-2">&amp;</span><span class="ident">arguments</span>) {
+                                <span class="string">&quot;rmdir&quot;</span>.<span class="ident">to_string</span>()
+                            } <span class="kw">else</span> {
+                                <span class="string">&quot;del&quot;</span>.<span class="ident">to_string</span>()
+                            }
+                        }
+                        <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="string">&quot;del&quot;</span>.<span class="ident">to_string</span>(),
+                    };
+
+                    <span class="kw">let</span> <span class="ident">flags_mappings</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">win_cmd</span> <span class="op">==</span> <span class="string">&quot;rmdir&quot;</span>.<span class="ident">to_string</span>() {
+                        <span class="macro">vec</span><span class="macro">!</span>[(<span class="string">&quot;-([rR][fF]|[fF][rR]) &quot;</span>, <span class="string">&quot;/S /Q &quot;</span>), (<span class="string">&quot;-[rR]+ &quot;</span>, <span class="string">&quot;/S &quot;</span>)]
+                    } <span class="kw">else</span> {
+                        <span class="macro">vec</span><span class="macro">!</span>[(<span class="string">&quot;-[fF] &quot;</span>, <span class="string">&quot;/Q &quot;</span>)]
+                    };
+
+                    (<span class="ident">win_cmd</span>, <span class="ident">flags_mappings</span>, <span class="macro">vec</span><span class="macro">!</span>[], <span class="bool-val">true</span>)
+                }
+                <span class="string">&quot;mkdir&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;mkdir&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[(<span class="string">&quot;-[pP]&quot;</span>, <span class="string">&quot;&quot;</span>)], <span class="macro">vec</span><span class="macro">!</span>[], <span class="bool-val">true</span>),
+                <span class="string">&quot;clear&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;cls&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[], <span class="bool-val">false</span>),
+                <span class="string">&quot;grep&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;find&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[], <span class="bool-val">false</span>),
+                <span class="string">&quot;pwd&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;chdir&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[], <span class="bool-val">false</span>),
+                <span class="string">&quot;export&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;set&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[], <span class="bool-val">false</span>),
+                <span class="string">&quot;unset&quot;</span> <span class="op">=&gt;</span> (<span class="string">&quot;set&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;=&quot;</span>], <span class="bool-val">false</span>),
+                <span class="kw">_</span> <span class="op">=&gt;</span> (<span class="ident">shell_command</span>.<span class="ident">to_string</span>(), <span class="macro">vec</span><span class="macro">!</span>[], <span class="macro">vec</span><span class="macro">!</span>[], <span class="bool-val">false</span>),
+            };
+
+        <span class="comment">// modify paths</span>
+        <span class="kw">if</span> <span class="ident">modify_path_separator</span> {
+            <span class="ident">arguments</span> <span class="op">=</span> <span class="ident">arguments</span>.<span class="ident">replace</span>(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;\\&quot;</span>);
+        }
 
         <span class="comment">// replace flags</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">windows_arguments</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">flags_mappings</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span> {
-            <span class="ident">replace_flags</span>(<span class="ident">arguments</span>, <span class="ident">flags_mappings</span>)
+            <span class="ident">replace_flags</span>(<span class="kw-2">&amp;</span><span class="ident">arguments</span>, <span class="ident">flags_mappings</span>)
         } <span class="kw">else</span> {
             <span class="ident">arguments</span>.<span class="ident">to_string</span>()
         };
