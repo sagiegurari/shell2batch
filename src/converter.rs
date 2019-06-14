@@ -44,12 +44,20 @@ fn replace_full_vars(arguments: &str) -> String {
         };
 
         if found {
-            buffer.push("%");
-        }
-        buffer.push(before);
-
-        if found {
-            buffer.push("%")
+            match before {
+                "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" => {
+                    buffer.push("%");
+                    buffer.push(before);
+                },
+                "@" => buffer.push("%*"),
+                _ => {
+                    buffer.push("%");
+                    buffer.push(before);
+                    buffer.push("%");
+                }
+            }
+        } else {
+            buffer.push(before)
         }
 
         if after.len() > 0 {
@@ -72,9 +80,18 @@ fn replace_partial_vars(arguments: &str) -> String {
             Some(index) => part.split_at(index),
         };
 
-        buffer.push("%");
-        buffer.push(before);
-        buffer.push("%");
+        match before {
+            "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" => {
+                buffer.push("%");
+                buffer.push(before);
+            },
+            "@" => buffer.push("%*"),
+            _ => {
+                buffer.push("%");
+                buffer.push(before);
+                buffer.push("%");
+            }
+        }
 
         if after.len() > 0 {
             buffer.push(after);

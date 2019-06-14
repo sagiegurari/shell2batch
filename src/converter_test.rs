@@ -181,6 +181,33 @@ fn replace_vars_mixed() {
 }
 
 #[test]
+fn replace_params_full() {
+    let mut value = replace_full_vars("echo 0=${0} 1=${1} 2=${2} 3=${3} 4=${4} 5=${5} 6=${6} 7=${7} 8=${8} 9=${9}");
+    assert_eq!(value, "echo 0=%0 1=%1 2=%2 3=%3 4=%4 5=%5 6=%6 7=%7 8=%8 9=%9".to_string());
+
+    value = replace_full_vars("echo ${@}");
+    assert_eq!(value, "echo %*".to_string());
+}
+
+#[test]
+fn replace_params_partial_syntax() {
+    let mut value = replace_partial_vars("echo 0=$0 1=$1 2=$2 3=$3 4=$4 5=$5 6=$6 7=$7 8=$8 9=$9");
+    assert_eq!(value, "echo 0=%0 1=%1 2=%2 3=%3 4=%4 5=%5 6=%6 7=%7 8=%8 9=%9".to_string());
+
+    value = replace_partial_vars("echo $@");
+    assert_eq!(value, "echo %*".to_string());
+}
+
+#[test]
+fn replace_params_mixed() {
+    let mut value = replace_vars("echo 0=$0 1=${1} 2=$2 3=${3} 4=$4 5=${5} 6=$6 7=${7} 8=$8 9=${9}");
+    assert_eq!(value, "echo 0=%0 1=%1 2=%2 3=%3 4=%4 5=%5 6=%6 7=%7 8=%8 9=%9".to_string());
+
+    value = replace_vars("echo $@ ${@}");
+    assert_eq!(value, "echo %* %*".to_string());
+}
+
+#[test]
 fn run_empty() {
     let output = run("");
 
