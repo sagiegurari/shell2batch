@@ -27,6 +27,23 @@ fn replace_flags(arguments: &str, flags_mappings: Vec<(&str, &str)>) -> String {
     windows_arguments
 }
 
+fn convert_var<'a>(value: &'a str, buffer: &mut Vec<&'a str>) {
+    // Batch file vars have one of two forms: `%NAME%` (corresponding to regular variables),
+    // or `%n` if `n` is a digit in the range 0 to 9 or an `*` (corresponding to input params).
+    match value {
+        "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" => {
+            buffer.push("%");
+            buffer.push(value);
+        },
+        "@" => buffer.push("%*"),
+        _ => {
+            buffer.push("%");
+            buffer.push(value);
+            buffer.push("%");
+        }
+    }
+}
+
 fn replace_full_vars(arguments: &str) -> String {
     let mut parts: Vec<&str> = arguments.split("${").collect();
     let mut buffer = vec![];
@@ -44,18 +61,7 @@ fn replace_full_vars(arguments: &str) -> String {
         };
 
         if found {
-            match before {
-                "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" => {
-                    buffer.push("%");
-                    buffer.push(before);
-                },
-                "@" => buffer.push("%*"),
-                _ => {
-                    buffer.push("%");
-                    buffer.push(before);
-                    buffer.push("%");
-                }
-            }
+            convert_var(before, &mut buffer);
         } else {
             buffer.push(before)
         }
@@ -80,18 +86,7 @@ fn replace_partial_vars(arguments: &str) -> String {
             Some(index) => part.split_at(index),
         };
 
-        match before {
-            "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" => {
-                buffer.push("%");
-                buffer.push(before);
-            },
-            "@" => buffer.push("%*"),
-            _ => {
-                buffer.push("%");
-                buffer.push(before);
-                buffer.push("%");
-            }
-        }
+        convert_var(before, &mut buffer);
 
         if after.len() > 0 {
             buffer.push(after);
