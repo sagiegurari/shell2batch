@@ -34,7 +34,7 @@ fn convert_var<'a>(value: &'a str, buffer: &mut Vec<&'a str>) {
         "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" => {
             buffer.push("%");
             buffer.push(value);
-        },
+        }
         "@" => buffer.push("%*"),
         _ => {
             buffer.push("%");

@@ -92,6 +92,7 @@ See [contributing guide](.github/CONTRIBUTING.md)
 
 | Date        | Version | Description |
 | ----------- | ------- | ----------- |
+| 2019-06-16  | v0.3.1  | Convert command line positional arguments #3 |
 | 2019-04-30  | v0.3.0  | Convert '/' to '\' in command arguments |
 | 2018-08-30  | v0.2.0  | Fix remove directory command #1 |
 | 2017-10-24  | v0.1.4  | Variable replacement support. |
