@@ -299,23 +299,6 @@ fn convert_line_cp_recursive() {
 }
 
 #[test]
-#[ignore] // Multiple arguments are currently broken.
-fn convert_line_cp_multiple() {
-    let output = convert_line("cp -r dir/file1 dir/file2 dir2/");
-
-    assert_eq!(output, "for %I in (dir\\file1 dir\\file2) do copy %I dir2\\");
-}
-
-#[test]
-#[ignore] // Multiple arguments are currently broken.
-fn convert_line_cp_multiple_recursive() {
-    let output = convert_line("cp -r dir\\sub1 dir\\sub2 dir2\\sub3");
-
-    assert_eq!(output, "for %I in (dir\\file1 dir\\file2) do xcopy /E %I dir2\\");
-}
-
-
-#[test]
 fn convert_line_mv() {
     let output = convert_line("mv dir/file1 dir/file2");
 
