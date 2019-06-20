@@ -153,7 +153,7 @@ fn convert_line(line: &str) -> String {
                                 "copy".to_string()
                             }
                         }
-                        Err(_) => "del".to_string(),
+                        Err(_) => "copy".to_string(),
                     };
 
                     let flags_mappings = if win_cmd == "xcopy".to_string() {
