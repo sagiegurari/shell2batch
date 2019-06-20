@@ -142,7 +142,7 @@
 //! set FILE2=file2
 //!
 //! @REM this is some test code
-//! xcopy %FILE1% %FILE2%
+//! copy %FILE1% %FILE2%
 //!
 //! @REM another
 //! move file2 file3
@@ -211,7 +211,7 @@ mod converter;
 /// set FILE2=file2
 ///
 /// @REM this is some test code
-/// xcopy %FILE1% %FILE2%
+/// copy %FILE1% %FILE2%
 ///
 /// @REM another
 /// move file2 file3

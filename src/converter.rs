@@ -136,6 +136,15 @@ fn convert_line(line: &str) -> String {
         let (mut windows_command, flags_mappings, additional_arguments, modify_path_separator) =
             match shell_command {
                 "cp" => {
+                    // There is no good `cp` equivalent on windows. There are
+                    // two tools we can rely on:
+                    //
+                    // - xcopy, which is great for directory to directory
+                    //   copies.
+                    // - copy, which is great for file to file/directory copies.
+                    //
+                    // We can select which one to use based on the presence of
+                    // the -r flag.
                     let win_cmd = match Regex::new("-[^ ]*[rR]") {
                         Ok(regex_instance) => {
                             if regex_instance.is_match(&arguments) {
