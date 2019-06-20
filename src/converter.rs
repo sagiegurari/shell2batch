@@ -135,7 +135,25 @@ fn convert_line(line: &str) -> String {
 
         let (mut windows_command, flags_mappings, additional_arguments, modify_path_separator) =
             match shell_command {
-                "cp" => ("xcopy".to_string(), vec![("-[rR]", "/E")], vec![], true),
+                "cp" => {
+                    let win_cmd = match Regex::new("-[^ ]*[rR]") {
+                        Ok(regex_instance) => {
+                            if regex_instance.is_match(&arguments) {
+                                "xcopy".to_string()
+                            } else {
+                                "copy".to_string()
+                            }
+                        }
+                        Err(_) => "del".to_string(),
+                    };
+
+                    let flags_mappings = if win_cmd == "xcopy".to_string() {
+                        vec![("-[rR]", "/E")]
+                    } else {
+                        vec![]
+                    };
+                    (win_cmd, flags_mappings, vec![], true)
+                },
                 "mv" => ("move".to_string(), vec![], vec![], true),
                 "ls" => ("dir".to_string(), vec![], vec![], true),
                 "rm" => {
