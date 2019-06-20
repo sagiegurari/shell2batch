@@ -145,11 +145,15 @@ fn convert_line(line: &str) -> String {
                     //
                     // We can select which one to use based on the presence of
                     // the -r flag.
-                    let regex_instance = Regex::new("-[^ ]*[rR]").expect("regex to be valid");
-                    let win_cmd = if regex_instance.is_match(&arguments) {
-                        "xcopy".to_string()
-                    } else {
-                        "copy".to_string()
+                    let win_cmd = match Regex::new("-[^ ]*[rR]") {
+                        Ok(regex_instance) => {
+                            if regex_instance.is_match(&arguments) {
+                                "xcopy".to_string()
+                            } else {
+                                "copy".to_string()
+                            }
+                        }
+                        Err(_) => "del".to_string(),
                     };
 
                     let flags_mappings = if win_cmd == "xcopy".to_string() {
@@ -162,11 +166,15 @@ fn convert_line(line: &str) -> String {
                 "mv" => ("move".to_string(), vec![], vec![], true),
                 "ls" => ("dir".to_string(), vec![], vec![], true),
                 "rm" => {
-                    let regex_instance = Regex::new("-[^ ]*[rR]").expect("regex to be valid");
-                    let win_cmd = if regex_instance.is_match(&arguments) {
-                        "rmdir".to_string()
-                    } else {
-                        "del".to_string()
+                    let win_cmd = match Regex::new("-[^ ]*[rR]") {
+                        Ok(regex_instance) => {
+                            if regex_instance.is_match(&arguments) {
+                                "rmdir".to_string()
+                            } else {
+                                "del".to_string()
+                            }
+                        }
+                        Err(_) => "del".to_string(),
                     };
 
                     let flags_mappings = if win_cmd == "rmdir".to_string() {
