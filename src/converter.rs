@@ -145,7 +145,7 @@ fn convert_line(line: &str) -> String {
                     //
                     // We can select which one to use based on the presence of
                     // the -r flag.
-                    let win_cmd = match Regex::new("-[^ ]*[rR]") {
+                    let win_cmd = match Regex::new("(^|\\s)-[^ ]*[rR]") {
                         Ok(regex_instance) => {
                             if regex_instance.is_match(&arguments) {
                                 "xcopy".to_string()

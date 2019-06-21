@@ -299,6 +299,13 @@ fn convert_line_cp_recursive() {
 }
 
 #[test]
+fn convert_line_cp_file_with_dash() {
+    let output = convert_line("cp file-r directory");
+
+    assert_eq!(output, "copy file-r directory");
+}
+
+#[test]
 fn convert_line_mv() {
     let output = convert_line("mv dir/file1 dir/file2");
 
