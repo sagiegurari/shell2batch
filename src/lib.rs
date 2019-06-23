@@ -109,6 +109,8 @@
 //! The original goal of this library is to provide users of [cargo-make](https://sagiegurari.github.io/cargo-make/) a
 //! way to write simple tasks with shell scripts without duplicating their code for each platform.
 //!
+//! It is possible to provide custom conversion hints by using the ```# shell2batch:``` prefix (see below example).
+//!
 //! # Examples
 //!
 //! ```
@@ -122,6 +124,7 @@
 //!
 //!         #this is some test code
 //!         cp ${FILE1} $FILE2
+//!         cp -r ${DIR1} $DIR2
 //!
 //!         #another
 //!         mv file2 file3
@@ -132,6 +135,9 @@
 //!         rm -Rf ${MY_DIR}
 //!
 //!         unset MY_DIR
+//!
+//!         #provide custom windows command for specific shell command
+//!         complex_bash_command --flag1 value2 # shell2batch: complex_windows_command /flag10 windows_value
 //!         "#
 //!     );
 //!
@@ -142,7 +148,8 @@
 //! set FILE2=file2
 //!
 //! @REM this is some test code
-//! xcopy %FILE1% %FILE2%
+//! copy %FILE1% %FILE2%
+//! xcopy /E %DIR1% %DIR2%
 //!
 //! @REM another
 //! move file2 file3
@@ -153,6 +160,9 @@
 //! rmdir /S /Q %MY_DIR%
 //!
 //! set MY_DIR=
+//!
+//! @REM provide custom windows command for specific shell command
+//! complex_windows_command /flag10 windows_value
 //! "#
 //!     );
 //!
@@ -191,6 +201,7 @@ mod converter;
 ///
 ///         #this is some test code
 ///         cp ${FILE1} $FILE2
+///         cp -r ${DIR1} $DIR2
 ///
 ///         #another
 ///         mv file2 file3
@@ -201,6 +212,9 @@ mod converter;
 ///         rm -Rf ${MY_DIR}
 ///
 ///         unset MY_DIR
+///
+///         #provide custom windows command for specific shell command
+///         complex_bash_command --flag1 value2 # shell2batch: complex_windows_command /flag10 windows_value
 ///         "#
 ///     );
 ///
@@ -211,7 +225,8 @@ mod converter;
 /// set FILE2=file2
 ///
 /// @REM this is some test code
-/// xcopy %FILE1% %FILE2%
+/// copy %FILE1% %FILE2%
+/// xcopy /E %DIR1% %DIR2%
 ///
 /// @REM another
 /// move file2 file3
@@ -222,6 +237,9 @@ mod converter;
 /// rmdir /S /Q %MY_DIR%
 ///
 /// set MY_DIR=
+///
+/// @REM provide custom windows command for specific shell command
+/// complex_windows_command /flag10 windows_value
 /// "#
 ///     );
 ///

@@ -236,7 +236,7 @@ fn run_comment() {
 fn run_command() {
     let output = run("cp file1 file2");
 
-    assert_eq!(output, "xcopy file1 file2");
+    assert_eq!(output, "copy file1 file2");
 }
 
 #[test]
@@ -255,7 +255,7 @@ fn run_multi_line() {
         r#"
 
 @REM this is some test code
-xcopy file1 file2
+copy file1 file2
 
 @REM another
 move file2 file3
@@ -278,6 +278,34 @@ fn convert_line_unhandled() {
 }
 
 #[test]
+fn convert_line_with_hint() {
+    let output = convert_line("test 123 abc # shell2batch: windows 123 windows abc");
+
+    assert_eq!(output, "windows 123 windows abc");
+}
+
+#[test]
+fn convert_line_with_hint_trim() {
+    let output = convert_line("test 123 abc # shell2batch:    windows 123 windows abc   ");
+
+    assert_eq!(output, "windows 123 windows abc");
+}
+
+#[test]
+fn convert_line_with_hint_empty() {
+    let output = convert_line("test 123 abc # shell2batch:");
+
+    assert_eq!(output, "");
+}
+
+#[test]
+fn convert_line_with_hint_start_of_line() {
+    let output = convert_line("# shell2batch: windows 123 windows abc");
+
+    assert_eq!(output, "windows 123 windows abc");
+}
+
+#[test]
 fn convert_line_comment() {
     let output = convert_line("#test/test");
 
@@ -288,7 +316,7 @@ fn convert_line_comment() {
 fn convert_line_cp() {
     let output = convert_line("cp dir/file1 dir/file2");
 
-    assert_eq!(output, "xcopy dir\\file1 dir\\file2");
+    assert_eq!(output, "copy dir\\file1 dir\\file2");
 }
 
 #[test]
@@ -296,6 +324,13 @@ fn convert_line_cp_recursive() {
     let output = convert_line("cp -r directory/sub1 director/sub2");
 
     assert_eq!(output, "xcopy /E directory\\sub1 director\\sub2");
+}
+
+#[test]
+fn convert_line_cp_file_with_dash() {
+    let output = convert_line("cp file-r directory");
+
+    assert_eq!(output, "copy file-r directory");
 }
 
 #[test]

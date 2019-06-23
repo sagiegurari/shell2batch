@@ -9,6 +9,8 @@ mod converter_test;
 
 use regex::Regex;
 
+static SHELL2BATCH_PREFIX: &str = "# shell2batch:";
+
 fn replace_flags(arguments: &str, flags_mappings: Vec<(&str, &str)>) -> String {
     let mut windows_arguments = arguments.clone().to_string();
 
@@ -114,7 +116,11 @@ fn add_arguments(arguments: &str, additional_arguments: Vec<(&str)>) -> String {
 }
 
 fn convert_line(line: &str) -> String {
-    if line.starts_with("#") {
+    if line.contains(SHELL2BATCH_PREFIX) {
+        let index = line.find(SHELL2BATCH_PREFIX).unwrap() + SHELL2BATCH_PREFIX.len();
+        let windows_command = line[index..].trim();
+        windows_command.to_string()
+    } else if line.starts_with("#") {
         let mut windows_command = String::from(line);
         windows_command.remove(0);
         windows_command.insert_str(0, "@REM ");
@@ -135,7 +141,34 @@ fn convert_line(line: &str) -> String {
 
         let (mut windows_command, flags_mappings, additional_arguments, modify_path_separator) =
             match shell_command {
-                "cp" => ("xcopy".to_string(), vec![("-[rR]", "/E")], vec![], true),
+                "cp" => {
+                    // There is no good `cp` equivalent on windows. There are
+                    // two tools we can rely on:
+                    //
+                    // - xcopy, which is great for directory to directory
+                    //   copies.
+                    // - copy, which is great for file to file/directory copies.
+                    //
+                    // We can select which one to use based on the presence of
+                    // the -r flag.
+                    let win_cmd = match Regex::new("(^|\\s)-[^ ]*[rR]") {
+                        Ok(regex_instance) => {
+                            if regex_instance.is_match(&arguments) {
+                                "xcopy".to_string()
+                            } else {
+                                "copy".to_string()
+                            }
+                        }
+                        Err(_) => "copy".to_string(),
+                    };
+
+                    let flags_mappings = if win_cmd == "xcopy".to_string() {
+                        vec![("-[rR]", "/E")]
+                    } else {
+                        vec![]
+                    };
+                    (win_cmd, flags_mappings, vec![], true)
+                }
                 "mv" => ("move".to_string(), vec![], vec![], true),
                 "ls" => ("dir".to_string(), vec![], vec![], true),
                 "rm" => {

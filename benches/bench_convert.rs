@@ -23,7 +23,7 @@ fn convert(bencher: &mut Bencher) {
             r#"
 
 @REM this is some test code
-xcopy file1 file2
+copy file1 file2
 
 @REM another
 move file2 file3

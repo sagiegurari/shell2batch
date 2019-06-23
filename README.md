@@ -17,7 +17,9 @@
 <a name="overview"></a>
 ## Overview
 While it is not really possible to take every shell script and automatically convert it to a windows batch file, this library provides a way to convert simple basic shell commands to windows batch commands.<br>
-The original goal of this library is to provide users of [cargo-make](https://sagiegurari.github.io/cargo-make/) a way to write simple tasks with shell scripts without duplicating their code for each platform.
+The original goal of this library is to provide users of [cargo-make](https://sagiegurari.github.io/cargo-make/) a way to write simple tasks with shell scripts without duplicating their code for each platform.<br>
+<br>
+It is possible to provide custom conversion hints by using the ```# shell2batch:``` prefix (see below example).
 
 <a name="usage"></a>
 ## Usage
@@ -34,6 +36,7 @@ fn main() {
 
         #this is some test code
         cp ${FILE1} $FILE2
+        cp -r ${DIR1} $DIR2
 
         #another
         mv file2 file3
@@ -44,7 +47,10 @@ fn main() {
         rm -Rf ${MY_DIR}
 
         unset MY_DIR
-        "#
+
+        #provide custom windows command for specific shell command
+        complex_bash_command --flag1 value2 # shell2batch: complex_windows_command /flag10 windows_value
+        "#,
     );
 
     assert_eq!(
@@ -54,7 +60,8 @@ set FILE1=file1
 set FILE2=file2
 
 @REM this is some test code
-xcopy %FILE1% %FILE2%
+copy %FILE1% %FILE2%
+xcopy /E %DIR1% %DIR2%
 
 @REM another
 move file2 file3
@@ -65,6 +72,9 @@ set MY_DIR=directory
 rmdir /S /Q %MY_DIR%
 
 set MY_DIR=
+
+@REM provide custom windows command for specific shell command
+complex_windows_command /flag10 windows_value
 "#
     );
 
@@ -90,14 +100,7 @@ See [contributing guide](.github/CONTRIBUTING.md)
 <a name="history"></a>
 ## Release History
 
-| Date        | Version | Description |
-| ----------- | ------- | ----------- |
-| 2019-06-16  | v0.3.1  | Convert command line positional arguments #3 |
-| 2019-04-30  | v0.3.0  | Convert '/' to '\' in command arguments |
-| 2018-08-30  | v0.2.0  | Fix remove directory command #1 |
-| 2017-10-24  | v0.1.4  | Variable replacement support. |
-| 2017-10-22  | v0.1.2  | Added command flags replacements. |
-| 2017-10-21  | v0.1.0  | Initial release. |
+See [Changelog](https://github.com/sagiegurari/envmnt/blob/master/CHANGELOG.md)
 
 <a name="license"></a>
 ## License
