@@ -19,6 +19,9 @@ fn main() {
         rm -Rf ${MY_DIR}
 
         unset MY_DIR
+
+        #provide custom windows command for specific shell command
+        complex_bash_command --flag1 value2 # shell2batch: complex_windows_command /flag10 windows_value
         "#,
     );
 
@@ -41,6 +44,9 @@ set MY_DIR=directory
 rmdir /S /Q %MY_DIR%
 
 set MY_DIR=
+
+@REM provide custom windows command for specific shell command
+complex_windows_command /flag10 windows_value
 "#
     );
 

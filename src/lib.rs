@@ -109,6 +109,8 @@
 //! The original goal of this library is to provide users of [cargo-make](https://sagiegurari.github.io/cargo-make/) a
 //! way to write simple tasks with shell scripts without duplicating their code for each platform.
 //!
+//! It is possible to provide custom conversion hints by using the ```# shell2batch:``` prefix (see below example).
+//!
 //! # Examples
 //!
 //! ```
@@ -133,6 +135,9 @@
 //!         rm -Rf ${MY_DIR}
 //!
 //!         unset MY_DIR
+//!
+//!         #provide custom windows command for specific shell command
+//!         complex_bash_command --flag1 value2 # shell2batch: complex_windows_command /flag10 windows_value
 //!         "#
 //!     );
 //!
@@ -155,6 +160,9 @@
 //! rmdir /S /Q %MY_DIR%
 //!
 //! set MY_DIR=
+//!
+//! @REM provide custom windows command for specific shell command
+//! complex_windows_command /flag10 windows_value
 //! "#
 //!     );
 //!
@@ -204,6 +212,9 @@ mod converter;
 ///         rm -Rf ${MY_DIR}
 ///
 ///         unset MY_DIR
+///
+///         #provide custom windows command for specific shell command
+///         complex_bash_command --flag1 value2 # shell2batch: complex_windows_command /flag10 windows_value
 ///         "#
 ///     );
 ///
@@ -226,6 +237,9 @@ mod converter;
 /// rmdir /S /Q %MY_DIR%
 ///
 /// set MY_DIR=
+///
+/// @REM provide custom windows command for specific shell command
+/// complex_windows_command /flag10 windows_value
 /// "#
 ///     );
 ///

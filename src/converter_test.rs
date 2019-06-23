@@ -278,6 +278,34 @@ fn convert_line_unhandled() {
 }
 
 #[test]
+fn convert_line_with_hint() {
+    let output = convert_line("test 123 abc # shell2batch: windows 123 windows abc");
+
+    assert_eq!(output, "windows 123 windows abc");
+}
+
+#[test]
+fn convert_line_with_hint_trim() {
+    let output = convert_line("test 123 abc # shell2batch:    windows 123 windows abc   ");
+
+    assert_eq!(output, "windows 123 windows abc");
+}
+
+#[test]
+fn convert_line_with_hint_empty() {
+    let output = convert_line("test 123 abc # shell2batch:");
+
+    assert_eq!(output, "");
+}
+
+#[test]
+fn convert_line_with_hint_start_of_line() {
+    let output = convert_line("# shell2batch: windows 123 windows abc");
+
+    assert_eq!(output, "windows 123 windows abc");
+}
+
+#[test]
 fn convert_line_comment() {
     let output = convert_line("#test/test");
 

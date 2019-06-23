@@ -9,6 +9,8 @@ mod converter_test;
 
 use regex::Regex;
 
+static SHELL2BATCH_PREFIX: &str = "# shell2batch:";
+
 fn replace_flags(arguments: &str, flags_mappings: Vec<(&str, &str)>) -> String {
     let mut windows_arguments = arguments.clone().to_string();
 
@@ -114,7 +116,11 @@ fn add_arguments(arguments: &str, additional_arguments: Vec<(&str)>) -> String {
 }
 
 fn convert_line(line: &str) -> String {
-    if line.starts_with("#") {
+    if line.contains(SHELL2BATCH_PREFIX) {
+        let index = line.find(SHELL2BATCH_PREFIX).unwrap() + SHELL2BATCH_PREFIX.len();
+        let windows_command = line[index..].trim();
+        windows_command.to_string()
+    } else if line.starts_with("#") {
         let mut windows_command = String::from(line);
         windows_command.remove(0);
         windows_command.insert_str(0, "@REM ");
