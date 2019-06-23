@@ -8,6 +8,7 @@ fn main() {
 
         #this is some test code
         cp ${FILE1} $FILE2
+        cp -r ${DIR1} $DIR2
 
         #another
         mv file2 file3
@@ -29,6 +30,7 @@ set FILE2=file2
 
 @REM this is some test code
 copy %FILE1% %FILE2%
+xcopy /E %DIR1% %DIR2%
 
 @REM another
 move file2 file3

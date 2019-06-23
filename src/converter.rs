@@ -162,7 +162,7 @@ fn convert_line(line: &str) -> String {
                         vec![]
                     };
                     (win_cmd, flags_mappings, vec![], true)
-                },
+                }
                 "mv" => ("move".to_string(), vec![], vec![], true),
                 "ls" => ("dir".to_string(), vec![], vec![], true),
                 "rm" => {

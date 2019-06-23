@@ -34,6 +34,7 @@ fn main() {
 
         #this is some test code
         cp ${FILE1} $FILE2
+        cp -r ${DIR1} $DIR2
 
         #another
         mv file2 file3
@@ -44,7 +45,7 @@ fn main() {
         rm -Rf ${MY_DIR}
 
         unset MY_DIR
-        "#
+        "#,
     );
 
     assert_eq!(
@@ -54,7 +55,8 @@ set FILE1=file1
 set FILE2=file2
 
 @REM this is some test code
-xcopy %FILE1% %FILE2%
+copy %FILE1% %FILE2%
+xcopy /E %DIR1% %DIR2%
 
 @REM another
 move file2 file3
