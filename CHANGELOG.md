@@ -1,6 +1,6 @@
 ## CHANGELOG
 
-### v0.4.0
+### v0.4.0 (2019-06-23)
 
 * cp of a single file hangs on a prompt #5 (thanks @roblabla)
 * Add support for custom windows conversion hint

@@ -231,6 +231,24 @@
 <span id="231">231</span>
 <span id="232">232</span>
 <span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">deny</span>(
     <span class="ident">absolute_paths_not_starting_with_crate</span>,
@@ -343,6 +361,8 @@
 <span class="doccomment">//! The original goal of this library is to provide users of [cargo-make](https://sagiegurari.github.io/cargo-make/) a</span>
 <span class="doccomment">//! way to write simple tasks with shell scripts without duplicating their code for each platform.</span>
 <span class="doccomment">//!</span>
+<span class="doccomment">//! It is possible to provide custom conversion hints by using the ```# shell2batch:``` prefix (see below example).</span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//! # Examples</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ```</span>
@@ -356,6 +376,7 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//!         #this is some test code</span>
 <span class="doccomment">//!         cp ${FILE1} $FILE2</span>
+<span class="doccomment">//!         cp -r ${DIR1} $DIR2</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!         #another</span>
 <span class="doccomment">//!         mv file2 file3</span>
@@ -366,6 +387,9 @@
 <span class="doccomment">//!         rm -Rf ${MY_DIR}</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!         unset MY_DIR</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!         #provide custom windows command for specific shell command</span>
+<span class="doccomment">//!         complex_bash_command --flag1 value2 # shell2batch: complex_windows_command /flag10 windows_value</span>
 <span class="doccomment">//!         &quot;#</span>
 <span class="doccomment">//!     );</span>
 <span class="doccomment">//!</span>
@@ -376,7 +400,8 @@
 <span class="doccomment">//! set FILE2=file2</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! @REM this is some test code</span>
-<span class="doccomment">//! xcopy %FILE1% %FILE2%</span>
+<span class="doccomment">//! copy %FILE1% %FILE2%</span>
+<span class="doccomment">//! xcopy /E %DIR1% %DIR2%</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! @REM another</span>
 <span class="doccomment">//! move file2 file3</span>
@@ -387,6 +412,9 @@
 <span class="doccomment">//! rmdir /S /Q %MY_DIR%</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! set MY_DIR=</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! @REM provide custom windows command for specific shell command</span>
+<span class="doccomment">//! complex_windows_command /flag10 windows_value</span>
 <span class="doccomment">//! &quot;#</span>
 <span class="doccomment">//!     );</span>
 <span class="doccomment">//!</span>
@@ -425,6 +453,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">///         #this is some test code</span>
 <span class="doccomment">///         cp ${FILE1} $FILE2</span>
+<span class="doccomment">///         cp -r ${DIR1} $DIR2</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///         #another</span>
 <span class="doccomment">///         mv file2 file3</span>
@@ -435,6 +464,9 @@
 <span class="doccomment">///         rm -Rf ${MY_DIR}</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///         unset MY_DIR</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///         #provide custom windows command for specific shell command</span>
+<span class="doccomment">///         complex_bash_command --flag1 value2 # shell2batch: complex_windows_command /flag10 windows_value</span>
 <span class="doccomment">///         &quot;#</span>
 <span class="doccomment">///     );</span>
 <span class="doccomment">///</span>
@@ -445,7 +477,8 @@
 <span class="doccomment">/// set FILE2=file2</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// @REM this is some test code</span>
-<span class="doccomment">/// xcopy %FILE1% %FILE2%</span>
+<span class="doccomment">/// copy %FILE1% %FILE2%</span>
+<span class="doccomment">/// xcopy /E %DIR1% %DIR2%</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// @REM another</span>
 <span class="doccomment">/// move file2 file3</span>
@@ -456,6 +489,9 @@
 <span class="doccomment">/// rmdir /S /Q %MY_DIR%</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// set MY_DIR=</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// @REM provide custom windows command for specific shell command</span>
+<span class="doccomment">/// complex_windows_command /flag10 windows_value</span>
 <span class="doccomment">/// &quot;#</span>
 <span class="doccomment">///     );</span>
 <span class="doccomment">///</span>
