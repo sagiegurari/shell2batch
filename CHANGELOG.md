@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v0.4.1 (2019-07-23)
+
+* Maintenance
+
 ### v0.4.0 (2019-06-23)
 
 * cp of a single file hangs on a prompt #5 (thanks @roblabla)
