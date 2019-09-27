@@ -1,29 +1,73 @@
 use super::*;
 
 #[test]
-fn add_arguments_empty_additional() {
-    let value = add_arguments("test", vec![]);
+fn add_arguments_pre_empty_additional() {
+    let value = add_arguments("test", vec![], true);
 
     assert_eq!(value, "test");
 }
 
 #[test]
-fn add_arguments_all_empty() {
-    let value = add_arguments("test", vec![]);
+fn add_arguments_pre_all_empty() {
+    let value = add_arguments("test", vec![], true);
 
     assert_eq!(value, "test");
 }
 
 #[test]
-fn add_arguments_additional_values() {
-    let value = add_arguments("test", vec![" 1", " 2", " 3"]);
+fn add_arguments_pre_additional_values() {
+    let value = add_arguments(
+        "test",
+        vec![" 1".to_string(), " 2".to_string(), " 3".to_string()],
+        true,
+    );
+
+    assert_eq!(value, "1 2 3 test");
+}
+
+#[test]
+fn add_arguments_pre_empty_args_and_additional_values() {
+    let value = add_arguments(
+        "",
+        vec!["1".to_string(), " 2".to_string(), " 3".to_string()],
+        true,
+    );
+
+    assert_eq!(value, "1 2 3");
+}
+
+#[test]
+fn add_arguments_post_empty_additional() {
+    let value = add_arguments("test", vec![], false);
+
+    assert_eq!(value, "test");
+}
+
+#[test]
+fn add_arguments_post_all_empty() {
+    let value = add_arguments("test", vec![], false);
+
+    assert_eq!(value, "test");
+}
+
+#[test]
+fn add_arguments_post_additional_values() {
+    let value = add_arguments(
+        "test",
+        vec![" 1".to_string(), " 2".to_string(), " 3".to_string()],
+        false,
+    );
 
     assert_eq!(value, "test 1 2 3");
 }
 
 #[test]
-fn add_arguments_empty_args_and_additional_values() {
-    let value = add_arguments("", vec!["1", " 2", " 3"]);
+fn add_arguments_post_empty_args_and_additional_values() {
+    let value = add_arguments(
+        "",
+        vec!["1".to_string(), " 2".to_string(), " 3".to_string()],
+        false,
+    );
 
     assert_eq!(value, "1 2 3");
 }
@@ -443,4 +487,25 @@ fn convert_line_unset() {
     let output = convert_line("unset A");
 
     assert_eq!(output, "set A=");
+}
+
+#[test]
+fn convert_line_touch() {
+    let output = convert_line("touch ./dir/myfile.txt");
+
+    assert_eq!(output, "copy /B .\\dir\\myfile.txt+,, .\\dir\\myfile.txt");
+}
+
+#[test]
+fn convert_line_set_minus_x() {
+    let output = convert_line("set -x");
+
+    assert_eq!(output, "@echo on");
+}
+
+#[test]
+fn convert_line_set_plus_x() {
+    let output = convert_line("set +x");
+
+    assert_eq!(output, "@echo off");
 }

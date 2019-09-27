@@ -4,6 +4,7 @@ version = "0.4.1"
 authors = ["Sagie Gur-Ari <sagiegurari@gmail.com>"]
 description = "Coverts simple basic shell scripts to windows batch scripts."
 license = "Apache-2.0"
+edition = "2018"
 documentation = "https://sagiegurari.github.io/shell2batch/api/shell2batch/index.html"
 homepage = "http://github.com/sagiegurari/shell2batch"
 repository = "https://github.com/sagiegurari/shell2batch.git"
