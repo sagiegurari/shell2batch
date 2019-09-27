@@ -194,6 +194,8 @@ mod converter;
 /// fn main() {
 ///     let script = shell2batch::convert(
 ///         r#"
+///         set -x
+///
 ///         export FILE1=file1
 ///         export FILE2=file2
 ///
@@ -221,6 +223,8 @@ mod converter;
 ///     assert_eq!(
 ///         script,
 ///         r#"
+/// @echo on
+///
 /// set FILE1=file1
 /// set FILE2=file2
 ///

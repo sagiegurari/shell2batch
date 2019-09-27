@@ -237,6 +237,13 @@ fn convert_line(line: &str) -> String {
                     true,
                 )
             }
+            "set" => (
+                "@echo".to_string(),
+                vec![("-x", "on"), ("\\+x", "off")],
+                vec![],
+                vec![],
+                false,
+            ),
             _ => (shell_command.to_string(), vec![], vec![], vec![], false),
         };
 

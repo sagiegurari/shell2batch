@@ -495,3 +495,17 @@ fn convert_line_touch() {
 
     assert_eq!(output, "copy /B .\\dir\\myfile.txt+,, .\\dir\\myfile.txt");
 }
+
+#[test]
+fn convert_line_set_minus_x() {
+    let output = convert_line("set -x");
+
+    assert_eq!(output, "@echo on");
+}
+
+#[test]
+fn convert_line_set_plus_x() {
+    let output = convert_line("set +x");
+
+    assert_eq!(output, "@echo off");
+}

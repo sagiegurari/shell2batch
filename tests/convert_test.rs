@@ -4,6 +4,8 @@ extern crate shell2batch;
 fn convert() {
     let script = shell2batch::convert(
         r#"
+        set -x
+
         export FILE1=file1
         export FILE2=file2
 
@@ -31,6 +33,8 @@ fn convert() {
     assert_eq!(
         script,
         r#"
+@echo on
+
 set FILE1=file1
 set FILE2=file2
 
