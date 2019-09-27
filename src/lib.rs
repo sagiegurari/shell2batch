@@ -22,7 +22,6 @@
     legacy_constructor_visibility,
     legacy_directory_ownership,
     macro_expanded_macro_exports_accessed_by_absolute_paths,
-    meta_variable_misuse,
     missing_copy_implementations,
     missing_docs,
     missing_fragment_specifier,
@@ -182,8 +181,6 @@
 #[cfg(test)]
 #[path = "./lib_test.rs"]
 mod lib_test;
-
-extern crate regex;
 
 mod converter;
 
