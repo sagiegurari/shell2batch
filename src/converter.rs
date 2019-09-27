@@ -105,14 +105,25 @@ fn replace_vars(arguments: &str) -> String {
     updated_arguments
 }
 
-fn add_arguments(arguments: &str, additional_arguments: Vec<(&str)>) -> String {
-    let mut windows_arguments = arguments.clone().to_string();
+fn add_arguments(arguments: &str, additional_arguments: Vec<(String)>, pre: bool) -> String {
+    let mut windows_arguments = if pre {
+        "".to_string()
+    } else {
+        arguments.clone().to_string()
+    };
 
     for additional_argument in additional_arguments {
-        windows_arguments.push_str(additional_argument);
+        windows_arguments.push_str(&additional_argument);
     }
 
-    windows_arguments.to_string()
+    if pre {
+        if arguments.len() > 0 {
+            windows_arguments.push_str(" ");
+        }
+        windows_arguments.push_str(arguments);
+    }
+
+    windows_arguments.trim_start().to_string()
 }
 
 fn convert_line(line: &str) -> String {
@@ -139,77 +150,115 @@ fn convert_line(line: &str) -> String {
 
         arguments = arguments.trim().to_string();
 
-        let (mut windows_command, flags_mappings, additional_arguments, modify_path_separator) =
-            match shell_command {
-                "cp" => {
-                    // There is no good `cp` equivalent on windows. There are
-                    // two tools we can rely on:
-                    //
-                    // - xcopy, which is great for directory to directory
-                    //   copies.
-                    // - copy, which is great for file to file/directory copies.
-                    //
-                    // We can select which one to use based on the presence of
-                    // the -r flag.
-                    let win_cmd = match Regex::new("(^|\\s)-[^ ]*[rR]") {
-                        Ok(regex_instance) => {
-                            if regex_instance.is_match(&arguments) {
-                                "xcopy".to_string()
-                            } else {
-                                "copy".to_string()
-                            }
+        let (
+            mut windows_command,
+            flags_mappings,
+            pre_arguments,
+            post_arguments,
+            modify_path_separator,
+        ) = match shell_command {
+            "cp" => {
+                // There is no good `cp` equivalent on windows. There are
+                // two tools we can rely on:
+                //
+                // - xcopy, which is great for directory to directory
+                //   copies.
+                // - copy, which is great for file to file/directory copies.
+                //
+                // We can select which one to use based on the presence of
+                // the -r flag.
+                let win_cmd = match Regex::new("(^|\\s)-[^ ]*[rR]") {
+                    Ok(regex_instance) => {
+                        if regex_instance.is_match(&arguments) {
+                            "xcopy".to_string()
+                        } else {
+                            "copy".to_string()
                         }
-                        Err(_) => "copy".to_string(),
-                    };
+                    }
+                    Err(_) => "copy".to_string(),
+                };
 
-                    let flags_mappings = if win_cmd == "xcopy".to_string() {
-                        vec![("-[rR]", "/E")]
-                    } else {
-                        vec![]
-                    };
-                    (win_cmd, flags_mappings, vec![], true)
-                }
-                "mv" => ("move".to_string(), vec![], vec![], true),
-                "ls" => ("dir".to_string(), vec![], vec![], true),
-                "rm" => {
-                    let win_cmd = match Regex::new("-[^ ]*[rR]") {
-                        Ok(regex_instance) => {
-                            if regex_instance.is_match(&arguments) {
-                                "rmdir".to_string()
-                            } else {
-                                "del".to_string()
-                            }
+                let flags_mappings = if win_cmd == "xcopy".to_string() {
+                    vec![("-[rR]", "/E")]
+                } else {
+                    vec![]
+                };
+                (win_cmd, flags_mappings, vec![], vec![], true)
+            }
+            "mv" => ("move".to_string(), vec![], vec![], vec![], true),
+            "ls" => ("dir".to_string(), vec![], vec![], vec![], true),
+            "rm" => {
+                let win_cmd = match Regex::new("-[^ ]*[rR]") {
+                    Ok(regex_instance) => {
+                        if regex_instance.is_match(&arguments) {
+                            "rmdir".to_string()
+                        } else {
+                            "del".to_string()
                         }
-                        Err(_) => "del".to_string(),
-                    };
+                    }
+                    Err(_) => "del".to_string(),
+                };
 
-                    let flags_mappings = if win_cmd == "rmdir".to_string() {
-                        vec![("-([rR][fF]|[fF][rR]) ", "/S /Q "), ("-[rR]+ ", "/S ")]
-                    } else {
-                        vec![("-[fF] ", "/Q ")]
-                    };
+                let flags_mappings = if win_cmd == "rmdir".to_string() {
+                    vec![("-([rR][fF]|[fF][rR]) ", "/S /Q "), ("-[rR]+ ", "/S ")]
+                } else {
+                    vec![("-[fF] ", "/Q ")]
+                };
 
-                    (win_cmd, flags_mappings, vec![], true)
-                }
-                "mkdir" => ("mkdir".to_string(), vec![("-[pP]", "")], vec![], true),
-                "clear" => ("cls".to_string(), vec![], vec![], false),
-                "grep" => ("find".to_string(), vec![], vec![], false),
-                "pwd" => ("chdir".to_string(), vec![], vec![], false),
-                "export" => ("set".to_string(), vec![], vec![], false),
-                "unset" => ("set".to_string(), vec![], vec!["="], false),
-                _ => (shell_command.to_string(), vec![], vec![], false),
-            };
+                (win_cmd, flags_mappings, vec![], vec![], true)
+            }
+            "mkdir" => (
+                "mkdir".to_string(),
+                vec![("-[pP]", "")],
+                vec![],
+                vec![],
+                true,
+            ),
+            "clear" => ("cls".to_string(), vec![], vec![], vec![], false),
+            "grep" => ("find".to_string(), vec![], vec![], vec![], false),
+            "pwd" => ("chdir".to_string(), vec![], vec![], vec![], false),
+            "export" => ("set".to_string(), vec![], vec![], vec![], false),
+            "unset" => (
+                "set".to_string(),
+                vec![],
+                vec![],
+                vec!["=".to_string()],
+                false,
+            ),
+            "touch" => {
+                let mut file_arg = arguments.replace("/", "\\").to_string();
+                file_arg.push_str("+,,");
+
+                (
+                    "copy".to_string(),
+                    vec![],
+                    vec!["/B ".to_string(), file_arg.clone()],
+                    vec![],
+                    true,
+                )
+            }
+            _ => (shell_command.to_string(), vec![], vec![], vec![], false),
+        };
 
         // modify paths
         if modify_path_separator {
             arguments = arguments.replace("/", "\\");
         }
 
+        let mut windows_arguments = arguments.to_string();
+
+        // add pre arguments
+        windows_arguments = if pre_arguments.len() > 0 {
+            add_arguments(&windows_arguments, pre_arguments, true)
+        } else {
+            windows_arguments
+        };
+
         // replace flags
-        let mut windows_arguments = if flags_mappings.len() > 0 {
+        windows_arguments = if flags_mappings.len() > 0 {
             replace_flags(&arguments, flags_mappings)
         } else {
-            arguments.to_string()
+            windows_arguments
         };
 
         // replace vars
@@ -219,9 +268,9 @@ fn convert_line(line: &str) -> String {
             windows_arguments
         };
 
-        // add additional arguments
-        windows_arguments = if additional_arguments.len() > 0 {
-            add_arguments(&windows_arguments, additional_arguments)
+        // add post arguments
+        windows_arguments = if post_arguments.len() > 0 {
+            add_arguments(&windows_arguments, post_arguments, false)
         } else {
             windows_arguments
         };

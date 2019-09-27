@@ -48,6 +48,8 @@ fn main() {
 
         unset MY_DIR
 
+        touch ./file3
+
         #provide custom windows command for specific shell command
         complex_bash_command --flag1 value2 # shell2batch: complex_windows_command /flag10 windows_value
         "#,
@@ -67,6 +69,8 @@ xcopy /E %DIR1% %DIR2%
 move file2 file3
 
 set MY_DIR=directory
+
+copy /B .\file3+,, .\file3
 
 @REM flags are supported
 rmdir /S /Q %MY_DIR%

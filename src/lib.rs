@@ -211,6 +211,8 @@ mod converter;
 ///
 ///         unset MY_DIR
 ///
+///         touch ./file3
+///
 ///         #provide custom windows command for specific shell command
 ///         complex_bash_command --flag1 value2 # shell2batch: complex_windows_command /flag10 windows_value
 ///         "#
@@ -235,6 +237,8 @@ mod converter;
 /// rmdir /S /Q %MY_DIR%
 ///
 /// set MY_DIR=
+///
+/// copy /B .\file3+,, .\file3
 ///
 /// @REM provide custom windows command for specific shell command
 /// complex_windows_command /flag10 windows_value

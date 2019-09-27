@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v0.4.2
+
+* Adding touch support #9
+
 ### v0.4.1 (2019-07-23)
 
 * Maintenance
