@@ -1,6 +1,6 @@
 ## CHANGELOG
 
-### v0.4.2
+### v0.4.2 (2019-09-28)
 
 * Add support for touch command #9
 * Add support for echo on/off #10

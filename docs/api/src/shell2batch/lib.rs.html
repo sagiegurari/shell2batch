@@ -250,6 +250,11 @@
 <span id="250">250</span>
 <span id="251">251</span>
 <span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">deny</span>(
     <span class="ident">absolute_paths_not_starting_with_crate</span>,
@@ -275,7 +280,6 @@
     <span class="ident">legacy_constructor_visibility</span>,
     <span class="ident">legacy_directory_ownership</span>,
     <span class="ident">macro_expanded_macro_exports_accessed_by_absolute_paths</span>,
-    <span class="ident">meta_variable_misuse</span>,
     <span class="ident">missing_copy_implementations</span>,
     <span class="ident">missing_docs</span>,
     <span class="ident">missing_fragment_specifier</span>,
@@ -436,8 +440,6 @@
 <span class="attribute">#[<span class="ident">path</span> <span class="op">=</span> <span class="string">&quot;./lib_test.rs&quot;</span>]</span>
 <span class="kw">mod</span> <span class="ident">lib_test</span>;
 
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">regex</span>;
-
 <span class="kw">mod</span> <span class="ident">converter</span>;
 
 <span class="doccomment">/// Converts the provided shell script and returns the windows batch script text.</span>
@@ -450,6 +452,8 @@
 <span class="doccomment">/// fn main() {</span>
 <span class="doccomment">///     let script = shell2batch::convert(</span>
 <span class="doccomment">///         r#&quot;</span>
+<span class="doccomment">///         set -x</span>
+<span class="doccomment">///</span>
 <span class="doccomment">///         export FILE1=file1</span>
 <span class="doccomment">///         export FILE2=file2</span>
 <span class="doccomment">///</span>
@@ -467,6 +471,8 @@
 <span class="doccomment">///</span>
 <span class="doccomment">///         unset MY_DIR</span>
 <span class="doccomment">///</span>
+<span class="doccomment">///         touch ./file3</span>
+<span class="doccomment">///</span>
 <span class="doccomment">///         #provide custom windows command for specific shell command</span>
 <span class="doccomment">///         complex_bash_command --flag1 value2 # shell2batch: complex_windows_command /flag10 windows_value</span>
 <span class="doccomment">///         &quot;#</span>
@@ -475,6 +481,8 @@
 <span class="doccomment">///     assert_eq!(</span>
 <span class="doccomment">///         script,</span>
 <span class="doccomment">///         r#&quot;</span>
+<span class="doccomment">/// @echo on</span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// set FILE1=file1</span>
 <span class="doccomment">/// set FILE2=file2</span>
 <span class="doccomment">///</span>
@@ -491,6 +499,8 @@
 <span class="doccomment">/// rmdir /S /Q %MY_DIR%</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// set MY_DIR=</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// copy /B .\file3+,, .\file3</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// @REM provide custom windows command for specific shell command</span>
 <span class="doccomment">/// complex_windows_command /flag10 windows_value</span>

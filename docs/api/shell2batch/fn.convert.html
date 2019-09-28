@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `convert` fn in crate `shell2batch`."><meta name="keywords" content="rust, rustlang, rust-lang, convert"><title>shell2batch::convert - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc fn"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../shell2batch/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><div class="sidebar-elems"><p class='location'><a href='index.html'>shell2batch</a></p><script>window.sidebarCurrent = {name: 'convert', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/shell2batch/lib.rs.html#250-252' title='goto source code'>[src]</a></span><span class='in-band'>Function <a href='index.html'>shell2batch</a>::<wbr><a class="fn" href=''>convert</a></span></h1><pre class='rust fn'>pub fn convert(script: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></pre><div class='docblock'><p>Converts the provided shell script and returns the windows batch script text.</p>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `convert` fn in crate `shell2batch`."><meta name="keywords" content="rust, rustlang, rust-lang, convert"><title>shell2batch::convert - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc fn"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../shell2batch/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><div class="sidebar-elems"><p class='location'><a href='index.html'>shell2batch</a></p><script>window.sidebarCurrent = {name: 'convert', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/shell2batch/lib.rs.html#255-257' title='goto source code'>[src]</a></span><span class='in-band'>Function <a href='index.html'>shell2batch</a>::<wbr><a class="fn" href=''>convert</a></span></h1><pre class='rust fn'>pub fn convert(script: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></pre><div class='docblock'><p>Converts the provided shell script and returns the windows batch script text.</p>
 <h1 id="example" class="section-header"><a href="#example">Example</a></h1>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">shell2batch</span>;
@@ -6,6 +6,8 @@
 <span class="kw">fn</span> <span class="ident">main</span>() {
     <span class="kw">let</span> <span class="ident">script</span> <span class="op">=</span> <span class="ident">shell2batch</span>::<span class="ident">convert</span>(
         <span class="string">r#&quot;
+        set -x
+
         export FILE1=file1
         export FILE2=file2
 
@@ -23,6 +25,8 @@
 
         unset MY_DIR
 
+        touch ./file3
+
         #provide custom windows command for specific shell command
         complex_bash_command --flag1 value2 # shell2batch: complex_windows_command /flag10 windows_value
         &quot;#</span>
@@ -31,6 +35,8 @@
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="ident">script</span>,
         <span class="string">r#&quot;
+@echo on
+
 set FILE1=file1
 set FILE2=file2
 
@@ -47,6 +53,8 @@ set MY_DIR=directory
 rmdir /S /Q %MY_DIR%
 
 set MY_DIR=
+
+copy /B .\file3+,, .\file3
 
 @REM provide custom windows command for specific shell command
 complex_windows_command /flag10 windows_value
