@@ -108,7 +108,7 @@ See [contributing guide](.github/CONTRIBUTING.md)
 <a name="history"></a>
 ## Release History
 
-See [Changelog](https://github.com/sagiegurari/envmnt/blob/master/CHANGELOG.md)
+See [Changelog](https://github.com/sagiegurari/shell2batch/blob/master/CHANGELOG.md)
 
 <a name="license"></a>
 ## License
