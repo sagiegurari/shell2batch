@@ -105,7 +105,7 @@ fn replace_vars(arguments: &str) -> String {
     updated_arguments
 }
 
-fn add_arguments(arguments: &str, additional_arguments: Vec<(String)>, pre: bool) -> String {
+fn add_arguments(arguments: &str, additional_arguments: Vec<String>, pre: bool) -> String {
     let mut windows_arguments = if pre {
         "".to_string()
     } else {
