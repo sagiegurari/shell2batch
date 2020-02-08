@@ -11,7 +11,7 @@
 * [Installation](#installation)
 * [API Documentation](https://sagiegurari.github.io/shell2batch/)
 * [Contributing](.github/CONTRIBUTING.md)
-* [Release History](#history)
+* [Release History](CHANGELOG.md)
 * [License](#license)
 
 <a name="overview"></a>
@@ -108,7 +108,7 @@ See [contributing guide](.github/CONTRIBUTING.md)
 <a name="history"></a>
 ## Release History
 
-See [Changelog](https://github.com/sagiegurari/shell2batch/blob/master/CHANGELOG.md)
+See [Changelog](CHANGELOG.md)
 
 <a name="license"></a>
 ## License
