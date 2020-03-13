@@ -1,4 +1,4 @@
-extern crate shell2batch;
+use shell2batch;
 
 fn main() {
     let script = shell2batch::convert(

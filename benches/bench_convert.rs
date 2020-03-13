@@ -1,7 +1,7 @@
 #![feature(test)]
-extern crate shell2batch;
 extern crate test;
 
+use shell2batch;
 use test::Bencher;
 
 #[bench]

@@ -26,8 +26,7 @@ It is possible to provide custom conversion hints by using the ```# shell2batch:
 Simply include the library and invoke the convert function as follows:
 
 ```rust
-#[test]
-fn convert() {
+fn main() {
     let script = shell2batch::convert(
         r#"
         set -x
@@ -84,6 +83,8 @@ copy /B .\file3+,, .\file3
 complex_windows_command /flag10 windows_value
 "#
     );
+
+    println!("Script: {}", script);
 }
 ```
 
