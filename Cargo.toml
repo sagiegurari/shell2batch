@@ -26,6 +26,9 @@ include = [
 [dependencies]
 regex = "^1"
 
+[dev-dependencies]
+doc-comment = "^0.3"
+
 [badges.travis-ci]
 branch = "master"
 repository = "sagiegurari/shell2batch"

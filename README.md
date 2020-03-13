@@ -26,9 +26,8 @@ It is possible to provide custom conversion hints by using the ```# shell2batch:
 Simply include the library and invoke the convert function as follows:
 
 ```rust
-extern crate shell2batch;
-
-fn main() {
+#[test]
+fn convert() {
     let script = shell2batch::convert(
         r#"
         set -x
@@ -74,19 +73,17 @@ move file2 file3
 
 set MY_DIR=directory
 
-copy /B .\file3+,, .\file3
-
 @REM flags are supported
 rmdir /S /Q %MY_DIR%
 
 set MY_DIR=
 
+copy /B .\file3+,, .\file3
+
 @REM provide custom windows command for specific shell command
 complex_windows_command /flag10 windows_value
 "#
     );
-
-    println!("Script: {}", script);
 }
 ```
 

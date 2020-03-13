@@ -114,8 +114,6 @@
 //! # Examples
 //!
 //! ```
-//! extern crate shell2batch;
-//!
 //! fn main() {
 //!     let script = shell2batch::convert(
 //!         r#"
@@ -182,6 +180,9 @@
 #[path = "./lib_test.rs"]
 mod lib_test;
 
+#[cfg(doctest)]
+doc_comment::doctest!("../README.md");
+
 mod converter;
 
 /// Converts the provided shell script and returns the windows batch script text.
@@ -189,8 +190,6 @@ mod converter;
 /// # Example
 ///
 /// ```
-/// extern crate shell2batch;
-///
 /// fn main() {
 ///     let script = shell2batch::convert(
 ///         r#"
