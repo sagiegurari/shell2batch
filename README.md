@@ -1,6 +1,6 @@
 # shell2batch
 
-[![crates.io](https://img.shields.io/crates/v/shell2batch.svg)](https://crates.io/crates/shell2batch) ![Continuous Integration](https://github.com/sagiegurari/shell2batch/workflows/Continuous%20Integration/badge.svg?branch=master) [![codecov](https://codecov.io/gh/sagiegurari/shell2batch/branch/master/graph/badge.svg)](https://codecov.io/gh/sagiegurari/shell2batch)<br>
+[![crates.io](https://img.shields.io/crates/v/shell2batch.svg)](https://crates.io/crates/shell2batch) [![Continuous Integration](https://github.com/sagiegurari/shell2batch/workflows/Continuous%20Integration/badge.svg?branch=master)](https://github.com/sagiegurari/shell2batch/actions) [![codecov](https://codecov.io/gh/sagiegurari/shell2batch/branch/master/graph/badge.svg)](https://codecov.io/gh/sagiegurari/shell2batch)<br>
 [![license](https://img.shields.io/crates/l/shell2batch.svg)](https://github.com/sagiegurari/shell2batch/blob/master/LICENSE) [![Libraries.io for GitHub](https://img.shields.io/librariesio/github/sagiegurari/shell2batch.svg)](https://libraries.io/cargo/shell2batch) [![Documentation](https://docs.rs/shell2batch/badge.svg)](https://docs.rs/crate/shell2batch/) [![downloads](https://img.shields.io/crates/d/shell2batch.svg)](https://crates.io/crates/shell2batch)<br>
 [![Built with cargo-make](https://sagiegurari.github.io/cargo-make/assets/badges/cargo-make.svg)](https://sagiegurari.github.io/cargo-make)
 
