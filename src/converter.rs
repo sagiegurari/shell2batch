@@ -12,7 +12,7 @@ use regex::Regex;
 static SHELL2BATCH_PREFIX: &str = "# shell2batch:";
 
 fn replace_flags(arguments: &str, flags_mappings: Vec<(&str, &str)>) -> String {
-    let mut windows_arguments = arguments.clone().to_string();
+    let mut windows_arguments = arguments.to_string();
 
     for flags in flags_mappings {
         let (shell_flag, windows_flag) = flags;
@@ -109,7 +109,7 @@ fn add_arguments(arguments: &str, additional_arguments: Vec<String>, pre: bool) 
     let mut windows_arguments = if pre {
         "".to_string()
     } else {
-        arguments.clone().to_string()
+        arguments.to_string()
     };
 
     for additional_argument in additional_arguments {
