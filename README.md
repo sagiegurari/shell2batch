@@ -19,12 +19,13 @@
 While it is not really possible to take every shell script and automatically convert it to a windows batch file, this library provides a way to convert simple basic shell commands to windows batch commands.<br>
 The original goal of this library is to provide users of [cargo-make](https://sagiegurari.github.io/cargo-make/) a way to write simple tasks with shell scripts without duplicating their code for each platform.<br>
 <br>
-It is possible to provide custom conversion hints by using the ```# shell2batch:``` prefix (see below example).
+It is possible to provide custom conversion hints by using the **# shell2batch:** prefix (see below example).
 
 <a name="usage"></a>
 ## Usage
 Simply include the library and invoke the convert function as follows:
 
+<!--{ "examples/example.rs" | lines: 3 | code: rust }-->
 ```rust
 fn main() {
     let script = shell2batch::convert(
@@ -87,6 +88,7 @@ complex_windows_command /flag10 windows_value
     println!("Script: {}", script);
 }
 ```
+<!--{ end }-->
 
 <a name="installation"></a>
 ## Installation
