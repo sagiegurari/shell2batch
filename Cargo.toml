@@ -12,15 +12,15 @@ readme = "README.md"
 keywords = ["scripting", "shell", "batch", "conversion"]
 categories = ["command-line-utilities", "text-processing"]
 include = [
-    "/benches/*",
-    "/docs/*",
-    "/examples/*",
-    "/src/*",
-    "/tests/*",
-    "/Cargo.toml",
-    "/LICENSE",
-    "/README.md",
-    "/Makefile.toml"
+  "/benches/*",
+  "/docs/*",
+  "/examples/*",
+  "/src/*",
+  "/tests/*",
+  "/Cargo.toml",
+  "/LICENSE",
+  "/README.md",
+  "/Makefile.toml",
 ]
 
 [dependencies]
