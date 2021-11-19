@@ -96,7 +96,7 @@ In order to use this library, just add it as a dependency:
 
 ```ini
 [dependencies]
-shell2batch = "^0.4.2"
+shell2batch = "^0.4.3"
 ```
 
 ## API Documentation

@@ -1,5 +1,4 @@
-var N=null,E="",T="t",U="u",searchIndex={};
-var R=["shell2batch"];
-
-searchIndex["shell2batch"]={"doc":R[0],"i":[[5,"convert",R[0],"Converts the provided shell script and returns the windows…",N,[[["str"]],["string"]]]],"p":[]};
-initSearch(searchIndex);addSearchOptions(searchIndex);
+var searchIndex = JSON.parse('{\
+"shell2batch":{"doc":"shell2batch","t":[5],"n":["convert"],"q":["shell2batch"],"d":["Converts the provided shell script and returns the …"],"i":[0],"f":[[[["str",15]],["string",3]]],"p":[]}\
+}');
+if (window.initSearch) {window.initSearch(searchIndex)};

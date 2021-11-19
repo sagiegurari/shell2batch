@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v0.4.3 (2021-11-19)
+
+* Fix lint issues #17
+
 ### v0.4.2 (2019-09-28)
 
 * Add support for touch command #9
