@@ -509,3 +509,17 @@ fn convert_line_set_plus_x() {
 
     assert_eq!(output, "@echo off");
 }
+
+#[test]
+fn convert_line_var_as_command() {
+    let output = convert_line("$MYVAR");
+
+    assert_eq!(output, "%MYVAR%");
+}
+
+#[test]
+fn convert_line_var_as_part_of_command() {
+    let output = convert_line("./${MYVAR}.exe/something");
+
+    assert_eq!(output, ".\\%MYVAR%.exe\\something");
+}

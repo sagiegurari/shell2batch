@@ -1,13 +1,18 @@
 ## CHANGELOG
 
+### v0.4.4 (2022-02-06)
+
+* Fix: Env vars at start of line are not replaced #19
+* Fix: Convert '/' to '\' in command itself
+
 ### v0.4.3 (2021-11-19)
 
-* Fix lint issues #17
+* Fix: lint issues #17
 
 ### v0.4.2 (2019-09-28)
 
-* Add support for touch command #9
-* Add support for echo on/off #10
+* Enhancement: Add support for touch command #9
+* Enhancement: Add support for echo on/off #10
 
 ### v0.4.1 (2019-07-23)
 
@@ -15,28 +20,28 @@
 
 ### v0.4.0 (2019-06-23)
 
-* cp of a single file hangs on a prompt #5 (thanks @roblabla)
-* Add support for custom windows conversion hint
+* Fix: cp of a single file hangs on a prompt #5 (thanks @roblabla)
+* Enhancement: Add support for custom windows conversion hint
 
 ### v0.3.1 (2019-06-16)
 
-* Convert command line positional arguments #3
+* Enhancement: Convert command line positional arguments #3
 
 ### v0.3.0 (2019-04-30)
 
-* Convert '/' to '\' in command arguments
+* Enhancement: Convert '/' to '\' in command arguments
 
 ### v0.2.0 (2018-08-30)
 
-* Fix remove directory command #1
+* Fix: remove directory command #1
 
 ### v0.1.4 (2017-10-24)
 
-* Variable replacement support.
+* Enhancement: Variable replacement support.
 
 ### v0.1.2 (2017-10-22)
 
-* Added command flags replacements.
+* Enhancement: Added command flags replacements.
 
 ### v0.1.0 (2017-10-21)
 

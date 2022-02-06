@@ -251,6 +251,7 @@ fn convert_line(line: &str) -> String {
         if modify_path_separator {
             arguments = arguments.replace("/", "\\");
         }
+        windows_command = windows_command.replace("/", "\\");
 
         let mut windows_arguments = arguments.to_string();
 
@@ -274,6 +275,7 @@ fn convert_line(line: &str) -> String {
         } else {
             windows_arguments
         };
+        windows_command = replace_vars(&windows_command);
 
         // add post arguments
         windows_arguments = if post_arguments.len() > 0 {
