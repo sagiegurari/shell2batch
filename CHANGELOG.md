@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v0.4.5 (2022-11-01)
+
+* Fix: convert to del for file paths with -r in them #20
+
 ### v0.4.4 (2022-02-06)
 
 * Fix: Env vars at start of line are not replaced #19

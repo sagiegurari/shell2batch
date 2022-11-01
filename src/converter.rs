@@ -188,7 +188,7 @@ fn convert_line(line: &str) -> String {
             "mv" => ("move".to_string(), vec![], vec![], vec![], true),
             "ls" => ("dir".to_string(), vec![], vec![], vec![], true),
             "rm" => {
-                let win_cmd = match Regex::new("-[^ ]*[rR]") {
+                let win_cmd = match Regex::new("-[a-zA-Z]*[rR][a-zA-Z]* ") {
                     Ok(regex_instance) => {
                         if regex_instance.is_match(&arguments) {
                             "rmdir".to_string()

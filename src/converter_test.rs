@@ -406,6 +406,13 @@ fn convert_line_rm_no_prompt() {
 }
 
 #[test]
+fn convert_line_rm_with_minus_r_in_path() {
+    let output = convert_line("rm ./dir-dir/.file");
+
+    assert_eq!(output, "del .\\dir-dir\\.file");
+}
+
+#[test]
 fn convert_line_rm_recursive() {
     let output = convert_line("rm -r dir/file");
 
